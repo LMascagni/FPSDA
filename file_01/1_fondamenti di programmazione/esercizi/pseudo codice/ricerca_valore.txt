@@ -1,0 +1,15 @@
+//ricerca valore
+
+i <- 0;
+contatore <- 0;
+input n;
+
+while ( i < n)
+{
+  input num;
+  if ( num == num_dato )
+  {
+    contatore <- contatore +1;
+  }
+}
+output contatore;

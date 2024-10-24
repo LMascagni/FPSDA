@@ -1,0 +1,18 @@
+//fattoriale
+
+input n; //numero di cui si vuole calcolare il fattoriale
+
+i <- 1; //contatore
+f <- 1; //fattoriale di n
+
+if (n == 0){
+} else
+{
+  while (i <= n)
+  {
+    f <- f*i;
+    i <- i+1;
+  }
+}
+
+output f;
