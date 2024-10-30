@@ -1,0 +1,57 @@
+//20/10/23
+
+/*
+STRUTTURE DI CONTROLLO:
+
+condizionali: if-else, switch...
+iterativi: while, for...
+
+IF-ELSE:
+if(espressione)
+  istruzione-1;
+else
+  istruzione_2;
+
+  esempio:
+if(i != 0)
+{
+   printf ("%d", a/(doule) i);
+}
+else
+{
+   printf ("Divisione impossibile");
+}
+
+nota: in assenza di {} e in presenza di if annidati, un else viene associato all'if più vicino.
+
+ELSE IF:
+if(espressione_1)
+  istruzione-1;
+else
+   if(espressione_2)
+      istruzione_2;
+
+viene abbreviato con:
+if(espressione_1)
+  istruzione-1;
+else if(espressione_2)
+{
+   istruzione_2;
+}
+
+WHILE:
+while (espressione)
+{
+   blocco di istruzioni;
+}
+
+DO...WHILE:
+do
+{
+   istruzioni;
+} while (espressione);
+
+BREAK e CONTINUE:
+fanno uscire dal ciclo creando una uscita non strutturata.
+vengono usate solo per lo switch e in alcuni algoritmi molto specifici 
+potremmo usarle per uscire da funzioni perchè abbiamo trovato subito il valore cercato.

@@ -1,0 +1,42 @@
+//ricerca valore più vicino1
+
+i <- 0;
+contatore <- 0;
+flag_diff FALSO;
+flag_due_vicini VERO;
+
+input val_dato;
+input n; //lunghezza sequenza
+
+while ( i < n )
+{
+  input num;
+  if ( flag_diff == FALSO )
+  {
+    diff <- abs(val_dato - num);
+    vicino <- num;
+    flag_diff <- VERO;
+  } else
+  {
+    diff_tmp <- abs(val_dato - num);
+    if ( diff_tmp < diff )
+    {
+      vicino <- num;
+      diff <- diff_tmp;
+    }
+    if ( diff_tmp == diff )
+    {
+      vicino2 <- num;
+      flag_due_vicini <- VERO;
+    }
+  }
+  i <- i+1;
+}
+if (flag_due_vicini == VERO )
+{
+  output vicino;
+  output vicino2;
+} else
+{
+  output vicino;
+}

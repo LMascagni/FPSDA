@@ -1,0 +1,37 @@
+//sin(x)
+j <- 0;
+pot <- 1;
+
+i <- 1;
+fatt <- 1;
+
+esp <- 1;
+segno <- 1;
+sinx <- 0;
+
+input precisione;
+input x;
+
+while ( abs(sinx) > precisione )
+{
+  //calcolo fattoriale
+  while ( i <= fatt )
+  {
+    fatt <- fatt*i;
+    i <- i+1;
+  }
+  //calcolo esponente
+  while ( j < esp )
+  {
+    pot <- pot*x;
+    j <- j+1;
+  }
+  sinx <- sinx + (pot*segno)/fatt;
+  esp <- esp + 2;
+  segno <- segno*(-1);
+  fatt <- esp;
+  i <- 1;
+  j <- 0;
+  pot <- 1;
+}
+output <- sinx;

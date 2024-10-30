@@ -1,0 +1,14 @@
+//somma numeri
+
+i <- 0;
+somma <- 0;
+input n;
+
+while (i < n)
+{
+   input numero;
+   somma <- somma + numero;
+   i <- i + 1;
+}
+
+output somma;

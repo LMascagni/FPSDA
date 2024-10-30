@@ -1,0 +1,21 @@
+//fibonacci
+
+input n;
+f <- 0;
+i <- 0;
+prec2 <- 0;
+prec1 <- 1;
+output prec1;
+output prec2;
+while (i <= n)
+{
+   //f(0) = 0
+   //f(1) = 1
+   //f(n) = f(n-1) + f(n-2)
+
+   f <- prec1 + prec2;
+   output f;
+   prec2 <- prec1;
+   prec1 <- f;
+   i <- i+1;
+}

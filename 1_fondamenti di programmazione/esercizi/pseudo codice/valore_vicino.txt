@@ -1,0 +1,25 @@
+//valore più vicino
+
+input n;
+input numero_dato;
+flag_diff FALSO;
+i <- 0;
+while (i < n)
+{
+   input valore;
+   if (flag_diff == FALSO)
+   {
+      diff <- abs(numero_dato - valore);
+   } else
+   {
+      diff_tmp <- abs(numero_dato - valore);
+      if (diff_tmp < diff)
+      {
+         diff_tmp <- diff;
+         vicino <- valore;
+      }
+   }
+   i <- i+1;
+}
+
+output vicino;

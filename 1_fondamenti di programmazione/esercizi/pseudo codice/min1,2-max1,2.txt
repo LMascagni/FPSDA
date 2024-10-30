@@ -1,0 +1,84 @@
+//primo e secondo massimo tra n numeri, con n != 0
+//VERSIONE 1
+
+i <- 0;
+flag_max <- FALSO;
+flag_min <- FALSO;
+input n;
+
+while (i < n)
+{
+//CALCOLO MASSIMO
+   input numero;
+   if (flag_max == FALSO)
+   {
+      max1 <- numero;
+      max2 <- numero;
+      flag_max <- VERO;
+   } else
+
+
+   {
+      if (numero > max1 && numero > max2)
+      {
+         max2 <- max1;
+         max1 <- numero;
+      }
+   }
+
+
+
+//CALCOLO MINIMO
+   if (flag_min == FALSO)
+   {
+      min1 <- numero;
+      min2 <- numero;
+      flag_min <- VERO;
+   } else
+   {
+      if (numero < min && numero < min2)
+      {
+         min2 <- min1;
+         min1 <- numero;
+      }
+   }
+   i <- i+1;
+}
+
+if (max == min)
+{
+   output "massimo e minimo coincidono e sono:"
+   output max;
+}
+
+output max1, max2;
+output min1, min2;
+
+
+//VERSIONE 2
+
+i <- 0;
+input n;
+input numero;
+max1 <- numero;
+max2 <- numero;
+min1 <- numero;
+min2 <- numero;
+while (i < n)
+{
+   input numero;
+   if (numero > max1 && numero > max2)
+   {
+      max2 <- max1;
+      max1 <- numero;
+   }
+   if (numero < min1 && numero < min2)
+   {
+      min2 <- min1;
+      min1 <- numero;
+   }
+   i <- i+1;
+}
+
+output max1, max2;
+output min1, min2;
