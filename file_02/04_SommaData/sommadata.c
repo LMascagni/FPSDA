@@ -5,6 +5,8 @@ int checkdate (int g, int m, int a);
 int giorni_del_mese (int mese, int anno);
 int bisestile (int anno);
 
+void sommaData(int *ptr_g, int *ptr_m, int *ptr_a, int n);
+
 
 int main()
 {
@@ -33,35 +35,43 @@ int main()
     printf("g: %d, m: %d, a: %d, n: %d\n", g, m, a, n);
 #endif
 
-    g += n;
-
-    while (g > giorni_del_mese(m, a))
-    {
-        g -= giorni_del_mese(m, a);
-        m++;
-        if (m > 12)
-        {
-            m = 1;
-            a++;
-        }
-    }
-
-    while (g < 1)
-    {
-        m--;
-        if(m < 1)
-        {
-            m = 12;
-            a--;
-        }
-        g += giorni_del_mese(m, a);
-    }
-        
+    sommaData(&g, &m, &a, n);
 
     printf("%d/%d/%d", g, m, a);
 
     return EXIT_SUCCESS;
 }
+
+
+void sommaData(int *ptr_g, int *ptr_m, int *ptr_a, int n)
+{
+    *ptr_g += n;
+
+    while (*ptr_g > giorni_del_mese(*ptr_m, *ptr_a))
+    {
+        *ptr_g -= giorni_del_mese(*ptr_m, *ptr_a);
+        (*ptr_m)++;
+        if (*ptr_m > 12)
+        {
+            *ptr_m = 1;
+            (*ptr_a)++;
+        }
+    }
+
+    while (*ptr_g < 1)
+    {
+        (*ptr_g)--;
+        if(*ptr_m < 1)
+        {
+            *ptr_m = 12;
+            (*ptr_a)--;
+        }
+        *ptr_g += giorni_del_mese(*ptr_m, *ptr_a);
+    }
+}
+
+
+
 
 //FUNZIONE CHECKDATE
 /*
