@@ -18,12 +18,13 @@ int main()
     int n;
     do
     {
-        printf("inserisci giorno, mese e anno: ");
+        //printf("inserisci giorno, mese e anno: ");
         scanf("%d %d %d", &g, &m, &a);
         // controllo della data
         if(!checkdate(g, m, a))
         {
-            printf("ERRORE: Data inserita errata\n");
+            //printf("ERRORE: Data inserita errata\n");
+            printf("non corretta");
         }
     } while (!checkdate(g, m, a));
     
@@ -60,7 +61,7 @@ void sommaData(int *ptr_g, int *ptr_m, int *ptr_a, int n)
 
     while (*ptr_g < 1)
     {
-        (*ptr_g)--;
+        (*ptr_m)--;
         if(*ptr_m < 1)
         {
             *ptr_m = 12;
