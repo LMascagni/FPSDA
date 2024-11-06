@@ -5,9 +5,20 @@ double mysqrt (double r);
 int main()
 {
     double r1, r2;
+
+    double eps;
+    eps = 25e-17;
+    printf("%lf", eps); 
+
     r1 = sqrt (2.0);
     r2 = mysqrt (2.0);
-    if (r1 == r2)
+
+#ifdef DEBUG
+    printf ("DEBUG: diff = %.40lf\n", (r1-r2));
+    printf ("DEBUG: eps  = %.40lf\n", eps);
+#endif
+
+    if ((r1 - r2) < eps && (r1 - r2) > -eps)
     {
         printf ("OK! Radice di due = %.40lf\n", r1);
     }
@@ -40,5 +51,5 @@ double mysqrt (double r)
 #endif
 
     }
-    return n2;
+    return n1;
 }
