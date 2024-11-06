@@ -8,7 +8,6 @@ int main()
 
     double eps;
     eps = 25e-17;
-    printf("%lf", eps); 
 
     r1 = sqrt (2.0);
     r2 = mysqrt (2.0);
