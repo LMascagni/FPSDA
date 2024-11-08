@@ -1,108 +1,39 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "vett_lib.h"
 
-void stampa_array(int v[], int size);
+//definizione dei valori massimo e minimo inseribili nell'array
+#define VAL_MIN 0
+#define VAL_MAX 20
+
+//definizione della lunghezza massima dell'array
+#define MAX_LENGHT 100
+
+
 
 int main()
 {
-    int n;
-    //lettura del numero di valori
-    printf("inserisci il numero di valori da scrivere nel vettore: ");
-    scanf("%d", &n);
 
-    int v[n];
-    int n_values[21] = {0};
+    int values[MAX_LENGHT];
+    int counters[VAL_MAX - VAL_MIN + 1];
+
+    int dim;
 
     //lettura dei valori
-    int i, j;
-    for (i = 0; i < (sizeof(v)/sizeof(v[0])); i++)
-    {
-        printf("v[%d] = ", i);
-        scanf("%d", &v[i]);
-    }
+    dim = leggi_vettore (values, MAX_LENGHT);
 
-    //controllo dei valori e conteggio dei valori in v_values[]
-    for ( i = 0; i < (sizeof(v)/sizeof(v[0])); i++)
-    {
-        if(v[i] < 0 || v[i] > 20)
-        {
-            printf("e` stato scartato il voto non valido %d\n", v[i]);
-        }
-        else
-        {
-            n_values[v[i]]++;
-        }
-    }
-    
-#ifdef DEBUG
-    stampa_array(n_values, 21);
-#endif
-    
-//stampa del grafico
-    //ricerca del valore massimo di n_values
-    int max;
-    max = 0;
-    for(i = 0; i < 21 ; i++)
-    {
-        if (max < n_values[i])
-        {
-            max = n_values[i];
-        }
-    }
+    //controllo dei valori e aggiornamento
+    aggiorna_contatori (values, dim, VAL_MIN, VAL_MAX, counters);
 
 #ifdef DEBUG
-    printf("max = %d\n", max);
+    printf("DEBUG: stampa di values[]\n");
+    stampa_vettore (values, dim);
+    printf("DEBUG: stampa di counters[]\n");
+    stampa_vettore (counters, VAL_MAX - VAL_MIN + 1);
 #endif
-
-    //stampa degli istogrammi
-    for (i = 0; i < max; i++)
-    {
-        for(j = 0; j < 21; j++ )
-        {
-            //printf("%d%d ", i, j);
-            if (n_values[j] > (max - (i + 1)))
-            {
-                printf(" * ");
-            }
-            else
-            {
-                printf("   ");
-            }
-        }
-        printf("\n");
-    }
-    //stampa numeri fine del grafico
-    for (i = 0; i < 21; i++)
-    {
-        printf("%2d ", i);
-    }
+    
+    //stampa dell'istogramma verticale
+    stampa_istogramma_verticale(counters, VAL_MAX - VAL_MIN + 1, VAL_MIN, VAL_MAX);
 
     return EXIT_SUCCESS;
 }
-
-
-//void stampa_array(int v[], int size);
-
-void stampa_array(int v[], int size)
-{
-    printf("\n");
-    for (int i = 0; i < size * 5 + 1; i++)
-    {
-        printf("-");
-    }
-    printf("\n");
-    
-    for (int i = 0; i < size; i++)
-    {
-        printf("| %2d ", v[i]);
-    }
-    printf("|\n");
-    
-    for (int i = 0; i < size * 5 + 1; i++)
-    {
-        printf("-");
-    }
-    printf("\n");
-}
-
-
