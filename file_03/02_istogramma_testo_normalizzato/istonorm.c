@@ -26,7 +26,7 @@ int main()
     stampa_vettore(counters, V_MAX - V_MIN + 1);
 #endif
 
-    stampa_istogramma_verticale(counters, V_MAX - V_MIN + 1, V_MIN, V_MAX, 'd', 1, 0, 20);
+    stampa_istogramma_verticale(counters, V_MAX - V_MIN + 1, V_MIN, V_MAX, 'c', 0, 0, 20);
 
     return EXIT_SUCCESS;
 }
