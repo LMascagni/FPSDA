@@ -161,7 +161,7 @@ void stampa_istogramma_orizzontale (int v[], int dim)
    return;
 }
 
-void stampa_istogramma_verticale (int v[], int dim, int x_axis_min, int x_axis_max, int x_axix_var_type, int enable_norm, int y_axis_min, int y_axis_max)
+void stampa_istogramma_verticale (int v[], int dim, int x_axis_min, int x_axis_max, int x_axis_var_type, int enable_norm, int y_axis_min, int y_axis_max)
 {
    int max_value_index;
    double scale;
@@ -172,21 +172,21 @@ void stampa_istogramma_verticale (int v[], int dim, int x_axis_min, int x_axis_m
 
    if (enable_norm)
    {
-      scale = calcola_fattore_di_scala(v[max_value_index],y_axis_max); //TODO: aggiungere anche y_axis_min
+      scale = calcola_fattore_di_scala(v[max_value_index],y_axis_max); //TODO: also add y_axis_min
    }
 
    printf("fattore di scala: %lf\n", scale);
 
    int i, j;
    //stampa degli istogrammi
-   for (i = (v[max_value_index] / scale); i > 0; i--)
+   for (i = (v[max_value_index] / scale); i >= 0; i--)
    {
       for(j = 0; j < dim; j++ )
       {
          //printf("%d%d ", i, j);
          if (v[j] >= (i * scale))
          {
-            switch (x_axix_var_type)
+            switch (x_axis_var_type)
             {
                case 'd':
                   printf(" * ");
@@ -197,7 +197,7 @@ void stampa_istogramma_verticale (int v[], int dim, int x_axis_min, int x_axis_m
          }
          else
          {
-            switch (x_axix_var_type)
+            switch (x_axis_var_type)
             {
                case 'd':
                   printf("   ");
@@ -212,7 +212,7 @@ void stampa_istogramma_verticale (int v[], int dim, int x_axis_min, int x_axis_m
    //stampa numeri fine del grafico
    for (i = x_axis_min; i <= x_axis_max; i++)
    {
-      switch (x_axix_var_type)
+      switch (x_axis_var_type)
       {
          case 'd':
             printf("%2d ", i);
