@@ -38,7 +38,7 @@ int leggi_testo_vettore (int v[], int dim_max)
 
    while ((chr = getchar()) != EOF)
    {
-      v[dim] = chr;
+      v[dim] = minuscola(chr);
       
       dim++;
    }
@@ -255,7 +255,7 @@ void aggiorna_contatori (int v[], int dim, int val_min, int val_max, int counter
    {
       if (v[i] < val_min || v[i] > val_max)
       {
-         printf("e` stato scartato il voto non valido %d\n", v[i]);
+         //printf("e` stato scartato il voto non valido %d\n", v[i]);
       }
       else
       {
