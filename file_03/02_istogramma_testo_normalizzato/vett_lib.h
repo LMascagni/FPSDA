@@ -12,4 +12,3 @@ int massimo_in_vettore(int v[], int dim);
 double calcola_fattore_di_scala(int max_value, int max_height);
 
 int leggi_testo_vettore (int v[], int dim_max);
-
