@@ -11,7 +11,7 @@ int main() {
     int numeroMonete[N_MAX];
     int resto, n;
 
-    n = leggi_interi_vettore(valori, N_MAX);
+    n = leggi_vettore(valori, N_MAX);
 
     printf("Inserisci il valore totale del resto: ");
     scanf("%d", &resto);

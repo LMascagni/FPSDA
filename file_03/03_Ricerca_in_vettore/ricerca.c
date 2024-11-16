@@ -10,7 +10,7 @@ int main ()
 
     int dim, valore_cercato, inizio, fine, risultato;
 
-    dim = leggi_interi_vettore(v, MAX_VAL);
+    dim = leggi_vettore(v, MAX_VAL);
 
     // Lettura del valore da cercare e degli estremi del sottovettore
     printf("Inserisci il valore da cercare: ");

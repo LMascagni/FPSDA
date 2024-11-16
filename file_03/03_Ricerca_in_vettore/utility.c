@@ -29,3 +29,11 @@ int leggiNumeroConControllo(int min, int max)
     }while(dato < min || dato > max);
     return dato;
 }
+
+char minuscola (char ch)
+{
+   if (ch >= 'A' && ch <= 'Z')
+      return ch - 'A' + 'a';
+   else
+      return ch;
+}

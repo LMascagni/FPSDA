@@ -10,7 +10,7 @@ int main ()
 
     int dim;
 
-    dim = leggi_interi_vettore(v, MAX_VAL);
+    dim = leggi_vettore(v, MAX_VAL);
 
     printf("applico lo scorrimento...\n");
 

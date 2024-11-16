@@ -5,30 +5,18 @@
 #define V_MIN 'a'
 #define V_MAX 'z'
 
-#define MAX_LEN 100000
-
-
 int main()
 {
-    int text[MAX_LEN];
-    int counters[V_MAX - V_MIN + 1];
+   int counters[V_MAX - V_MIN + 1];
 
-    int dim;
-
-    dim = leggi_testo_vettore(text, MAX_LEN);
-
-    //stampa_vettore(text, dim);
-
-    aggiorna_contatori(text, dim, V_MIN, V_MAX, counters);
+   leggi_testo_e_aggiorna_i_contatori(counters, V_MIN, V_MAX);
 
 #ifdef DEBUG
-    printf("DEBUG: stampa di text[]\n");
-    stampa_vettore(text, dim);
-    printf("DEBUG: stampa di counters[]\n");
-    stampa_vettore(counters, V_MAX - V_MIN + 1);
+   printf("DEBUG: stampa di counters[]\n");
+   stampa_vettore(counters, V_MAX - V_MIN + 1);
 #endif
 
-    stampa_istogramma_verticale(counters, V_MAX - V_MIN + 1, V_MIN, V_MAX, 'c', 1, 0, 20);
+   stampa_istogramma_verticale_testo(counters, V_MAX - V_MIN + 1, 20);
 
-    return EXIT_SUCCESS;
+   return EXIT_SUCCESS;
 }
