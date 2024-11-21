@@ -12,11 +12,11 @@ int main ()
 	
 	if (frase_palindroma(p))
 	{
-		printf("palindroma");
+		printf("palindroma\n");
 	}
 	else
 	{
-		printf("non palindroma");
+		printf("non palindroma\n");
 	}
 }
 
