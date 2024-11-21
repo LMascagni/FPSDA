@@ -3,6 +3,5 @@
         "compare": "c",
         "utility.h": "c",
         "vett_lib.h": "c"
-   },
-   "gitdoc.enabled": true
+   }
 }

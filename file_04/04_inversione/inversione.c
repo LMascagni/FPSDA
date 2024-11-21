@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 void wordreverse(char s[]);
+void inverti_sottostringa(char s[], int start, int end);
 
 int main()
 {
@@ -40,14 +41,20 @@ void wordreverse(char s[])
       int end = i - 1;
 
       // Inverte la parola
-      while (start < end)
-      {
-         char temp = s[start];
-         s[start] = s[end];
-         s[end] = temp;
-         start++;
-         end--;
-      }
+      inverti_sottostringa(s, start, end);
+   }
+   return;
+}
+
+void inverti_sottostringa(char s[], int start, int end)
+{
+   while (start < end)
+   {
+      char temp = s[start];
+      s[start] = s[end];
+      s[end] = temp;
+      start++;
+      end--;
    }
    return;
 }
