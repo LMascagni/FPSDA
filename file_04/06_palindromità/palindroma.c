@@ -41,7 +41,6 @@ int frase_palindroma(char s[])
 			return 0;
 		}
 		
-		
 		i++;
 		j--;
 	}
