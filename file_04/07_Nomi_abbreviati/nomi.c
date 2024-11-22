@@ -13,7 +13,7 @@ int main()
 
    nome_abbreviato(s, t);
 
-   puts(s);
+   printf("%s", s);
 
    return 0;
 }
@@ -54,9 +54,13 @@ void nome_abbreviato(char s[], char t[])
    // aggiungi il cognome
 
    i = 0;
-
+	printf("j=%d", j);
    while (t[i] != ',')
    {
-      s[j++] = t[i++];
+      printf("t_%c\n",t[i]);
+      s[j] = t[i];
+      
+      i++;
+      j++;
    }
 }
