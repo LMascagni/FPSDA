@@ -13,54 +13,47 @@ int main()
 
    nome_abbreviato(s, t);
 
-   printf("%s", s);
+   printf(">%s<\n", s);
 
    return 0;
 }
 
-void nome_abbreviato(char s[], char t[])
+void nome_abbreviato(char t[], char s[])
 {
-   int i, j;
-   i = 0;
-   j = 0;
+   int is = 0, it = 0;
+   int inparola = 0;
 
-   // salta il cognome e la virgola
-   while (t[i] != ',' && t[i++] != '\0');
-   i++;
+   // Posizionati sulla virgola e salta la virgola
+   while (s[is] != ',' && s[is] != '\0') is++;
+   if (s[is] == ',') is++;
 
-   printf("s[%d]: %c\n", i, t[i]);
-
-   // cerca il primo carattere del nome
-   while (t[i] != '\0')
+   // Processa il nome
+   while (s[is] != '\0')
    {
-      //salta gli spazi e cerca il primo carattere del nome
-      while (t[i] <= ' ' && t[i++] != '\0');
-
-      //printf("s[%d]: %c\n", i, t[i]);
-
-      // prendi il primo carattere del nome e scrivilo in s[]
-      s[j++] = t[i];
-      s[j++] = '.';
-      s[j++] = ' ';
-
-      // cerca la fine del nome
-      while (t[i] > ' ' && t[i++] != '\0');
-
-      //printf("s[%d]: %c\n", i, t[i]);
-      //printf("successivo s[%d]: %c\n", i + 1, t[i + 1]);
-      // prendi il primo carattere della parola e scrivila in s[] e passa a quella successiva
+      if (s[is] != ' ')
+      {
+         if (!inparola)
+         {
+            t[it++] = s[is];
+            t[it++] = '.';
+            t[it++] = ' ';
+            inparola = 1;
+         }
+      }
+      else
+      {
+         inparola = 0;
+      }
+      is++;
    }
 
-   // aggiungi il cognome
-
-   i = 0;
-	printf("j=%d", j);
-   while (t[i] != ',')
+   // Copia il cognome
+   is = 0;
+   while (s[is] != ',' && s[is] != '\0')
    {
-      printf("t_%c\n",t[i]);
-      s[j] = t[i];
-      
-      i++;
-      j++;
+      t[it++] = s[is++];
    }
+
+   // Termina la stringa t
+   t[it] = '\0';
 }
