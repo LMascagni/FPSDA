@@ -3,5 +3,6 @@
         "compare": "c",
         "utility.h": "c",
         "vett_lib.h": "c"
-   }
+   },
+   "C_Cpp.default.compilerPath": "/usr/bin/gcc"
 }
