@@ -1,8 +1,9 @@
 {
     "files.associations": {
-        "compare": "c",
-        "utility.h": "c",
-        "vett_lib.h": "c"
+      "compare": "c",
+      "utility.h": "c",
+      "vett_lib.h": "c",
+      "stdlib.h": "c"
    },
    "C_Cpp.default.compilerPath": "/usr/bin/gcc"
 }
