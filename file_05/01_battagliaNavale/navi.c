@@ -11,14 +11,34 @@ void stampaCampo(char campo[ALTEZZA_MAX_CAMPO][LARGHEZZA_MAX_CAMPO]);
 void inizializzazioneCampo(char campo[ALTEZZA_MAX_CAMPO][LARGHEZZA_MAX_CAMPO]);
 int lunghezzaNave(char tipoNave[LUNGHEZZA_MAX_STRINGA]);
 int chkPosizionamento(char campo[ALTEZZA_MAX_CAMPO][LARGHEZZA_MAX_CAMPO], int xPos, int yPos, char orientamento, int lunghezza);
+void riempi_campo_di_battaglia(char campo[ALTEZZA_MAX_CAMPO][LARGHEZZA_MAX_CAMPO]);
+void battaglia_navale(void);
+
 
 int main()
+{
+   battaglia_navale();
+
+   return EXIT_SUCCESS;
+}
+
+
+void battaglia_navale(void)
+{
+   char campo[ALTEZZA_MAX_CAMPO][LARGHEZZA_MAX_CAMPO];
+
+   riempi_campo_di_battaglia(campo);
+
+   stampaCampo(campo);
+
+   return;
+}
+
+void riempi_campo_di_battaglia(char campo[ALTEZZA_MAX_CAMPO][LARGHEZZA_MAX_CAMPO])
 {
    char tipoNave[LUNGHEZZA_MAX_STRINGA];
    int xPos, yPos;
    char orientamento;
-
-   char campo[ALTEZZA_MAX_CAMPO][LARGHEZZA_MAX_CAMPO];
 
    inizializzazioneCampo(campo);
 
@@ -31,7 +51,9 @@ int main()
          printf("orientamento sconosciuto: %c\n", orientamento);
          exit(EXIT_FAILURE);
       }
+
       navePiazzata = piazzaNave(campo, tipoNave, xPos, yPos, orientamento);
+
       if (navePiazzata == 0)
       {
          printf("errore di caricamento della nave: %s %d %d %c\n", tipoNave, xPos, yPos, orientamento);
@@ -44,10 +66,9 @@ int main()
       }
    }
 
-   stampaCampo(campo);
-
-   return EXIT_SUCCESS;
+   return;
 }
+
 
 int chkPosizionamento(char campo[ALTEZZA_MAX_CAMPO][LARGHEZZA_MAX_CAMPO], int xPos, int yPos, char orientamento, int lunghezza)
 {
