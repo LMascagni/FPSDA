@@ -1,0 +1,31 @@
+Degli Specchi, Paola, 10/11/2020, 8.
+Vignoni, Pier Paolo, 8/1/2021, 6.
+Vai, Ugo, 10/11/2020, 10.
+Degli Specchi, Paola, 7/12/2020, 9.
+Vai, Ugo, 10/11/2020, 3.
+Della Valle Di Sotto, Luigi, 7/12/2020, 5.
+Zeni, Marta, 12/3/2021, 7.
+Rossi, Anna Maria, 10/11/2020, 8.
+Bianchi, Giovanni, 15/6/2020, 6.
+Degli Specchi, Paola, 18/8/2020, 10.
+Vignoni, Pier Paolo, 12/3/2021, 4.
+Vai, Ugo, 8/2/2020, 9.
+Degli Specchi, Paola, 19/9/2020, 7.
+Della Valle Di Sotto, Luigi, 5/5/2021, 8.
+Rossi, Anna Maria, 3/11/2020, 6.
+Bianchi, Giovanni, 2/2/2021, 5.
+Zeni, Marta, 9/12/2020, 8.
+Vignoni, Pier Paolo, 1/4/2020, 9.
+Vai, Ugo, 12/10/2020, 6.
+Degli Specchi, Paola, 4/8/2021, 10.
+Della Valle Di Sotto, Luigi, 15/7/2020, 4.
+Zeni, Marta, 22/11/2021, 6.
+Rossi, Anna Maria, 19/5/2020, 7.
+Bianchi, Giovanni, 10/3/2021, 9.
+Degli Specchi, Paola, 30/4/2020, 8.
+Vignoni, Pier Paolo, 28/2/2021, 6.
+Vai, Ugo, 12/12/2020, 5.
+Della Valle Di Sotto, Luigi, 8/11/2020, 7.
+Zeni, Marta, 10/6/2021, 10.
+Rossi, Anna Maria, 3/9/2021, 6.
+Bianchi, Giovanni, 18/10/2020, 8.
