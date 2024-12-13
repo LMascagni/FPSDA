@@ -1,0 +1,20 @@
+{
+	"folders": [
+		{
+			"name": "FPSDA",
+			"path": "../.."
+		},
+		{
+			"name": "prove_esame",
+			"path": "../../../../Downloads/FPSDA-main (2)/prove_esame"
+		}
+	],
+   "settings": {
+      "files.associations": {
+         "compare": "c",
+         "utility.h": "c",
+         "vett_lib.h": "c",
+         "stdlib.h": "c"
+      }
+   }
+}
