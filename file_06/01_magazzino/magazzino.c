@@ -3,6 +3,7 @@
 #include <ctype.h>
 
 #define MAX_LEN 32
+#define MAX_ART 100
 
 struct articolo
 {
@@ -11,33 +12,39 @@ struct articolo
 };
 
 
-int leggi_magazzino(FILE *fp, struct articolo articoli[], int max_dim);
+int leggi_magazzino(FILE *fp, struct articolo articoli[MAX_ART], int max_dim);
 struct articolo estrai_dati_articolo(char buf[MAX_LEN]);
-void stampa_magazzino (struct articolo articoli[100], int n_articoli);
+void stampa_magazzino (struct articolo articoli[MAX_ART], int n_articoli);
 
 
 int main()
 {
-   struct articolo articoli[100];
+   struct articolo articoli[MAX_ART];
    int n_articoli;
    n_articoli  = 0;
 
    FILE *fp;
-   fp = fopen("in.txt", "r");
+
+   char file[32];
+
+   printf("nome del file magazzino: ");
+   scanf("%s", file);
+
+   fp = fopen(file, "r");
    if (fp == NULL)
    {
-      printf("F in chat\n");
+      printf("errore nell'apertura del file.\n");
       exit(EXIT_FAILURE);
    }
 
-   n_articoli = leggi_magazzino(fp, articoli, 100);
+   n_articoli = leggi_magazzino(fp, articoli, MAX_ART);
 
    stampa_magazzino(articoli, n_articoli);
 
    return EXIT_SUCCESS;
 }
 
-int leggi_magazzino(FILE *fp, struct articolo articoli[], int max_dim)
+int leggi_magazzino(FILE *fp, struct articolo articoli[MAX_ART], int max_dim)
 {
    int i;
 
@@ -45,11 +52,8 @@ int leggi_magazzino(FILE *fp, struct articolo articoli[], int max_dim)
 
    //controlla che ci siano nuove righe
    while(fgets(buf, 100, fp) != NULL && i < max_dim)
-   {
-      articoli[i] = estrai_dati_articolo(buf);
-      i++;
-   }
       //leggi i dati
+      articoli[i++] = estrai_dati_articolo(buf);
 
    return i;
 }
@@ -86,7 +90,7 @@ struct articolo estrai_dati_articolo(char buf[MAX_LEN])
    return articolo;   
 }
 
-void stampa_magazzino (struct articolo articoli[100], int n_articoli)
+void stampa_magazzino (struct articolo articoli[MAX_ART], int n_articoli)
 {
    int i;
 

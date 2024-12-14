@@ -44,6 +44,7 @@ int main()
    // dichiarazione degli studenti
    struct studente studenti[MAX_STUDENTI];
    int n_studenti;
+   char fileIn[MAX_LEN], fileOut[MAX_LEN];
 
    n_studenti = 0;
 
@@ -51,8 +52,11 @@ int main()
    FILE *fp_in;
    FILE *fp_out;
 
-   fp_in = fopen("in2.txt", "r");
-   fp_out = fopen("out.txt", "w");
+   scanf("%s", fileIn);
+   scanf("%s", fileOut);
+
+   fp_in = fopen(fileIn, "r");
+   fp_out = fopen(fileOut, "w");
 
    if((fp_in == NULL) || (fp_out == NULL))
    {
@@ -82,7 +86,6 @@ int parseData(FILE *fp_in, struct studente studenti[MAX_STUDENTI])
 {
    int n_studenti;
    int matricola;
-   char ch;
    char nome[MAX_LEN];
    char cognome[MAX_LEN];
    char strData[MAX_LEN];
@@ -105,8 +108,9 @@ int parseData(FILE *fp_in, struct studente studenti[MAX_STUDENTI])
       // ottieni la matricola
       matricola = cercaStudente(studenti, n_studenti, cognome, nome);
 
-      //printf("matricola Studente di %s %s: %d\n", cognome, nome, matricola);
-
+#ifdef DEBUG
+      printf("matricola Studente di %s %s: %d\n", cognome, nome, matricola);
+#endif
       // salva nome e cognome se la matricola è nuova
       if (matricola >= n_studenti)
       {
@@ -121,13 +125,12 @@ int parseData(FILE *fp_in, struct studente studenti[MAX_STUDENTI])
       studenti[matricola].valutazioni[studenti[matricola].nVoti].data = convertiData(strData);
       
       // leggi la valutazione
-      fscanf(fp_in, "%d", &studenti[matricola].valutazioni[studenti[matricola].nVoti].voto);
+      fscanf(fp_in, "%d.\n", &studenti[matricola].valutazioni[studenti[matricola].nVoti].voto);
       studenti[matricola].nVoti++;
-      
-      //printf("\nn_studenti = %d\n\n", n_studenti);
 
-      while ((ch = fgetc(fp_in)) == '.');
-      //fgetc(fp_in);
+#ifdef DEBUG
+      printf("\nn_studenti = %d\n\n", n_studenti);
+#endif
    }
 
    return n_studenti;
