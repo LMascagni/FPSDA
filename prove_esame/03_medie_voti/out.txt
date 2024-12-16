@@ -1,18 +1,187 @@
-Paola Degli Specchi
-2020-11-10 8
-2020-12-7 9
+Stefania Federica Scaduto
+2020-12-8 7
+2020-9-7 3
+2020-12-1 10
+2021-1-6 2
+2020-9-19 7
+MEDIA: 5.8
+
+Lolita Pigafetta
+2020-12-17 8
+2021-1-7 7
+2020-8-12 6
+2020-8-11 2
+2020-10-6 3
+MEDIA: 5.2
+
+Susanna Cocci Zaccagnini
+2020-9-20 4
+2021-1-2 9
+2020-8-17 2
+2020-9-3 2
+2020-8-3 5
+MEDIA: 4.4
+
+Livia Veronica Scaramucci
+2020-11-26 2
+2020-11-22 5
+MEDIA: 3.5
+
+Laureano Blasi
+2020-11-20 10
+2020-9-25 10
+2020-11-24 3
+MEDIA: 7.7
+
+Santino Giosuè Pozzecco Pellegrini
+2020-10-8 9
+2020-11-7 8
 MEDIA: 8.5
 
-Pier Paolo Vignoni
-2021-1-8 6
+Nadia Garobbio
+2020-11-7 2
+2020-10-6 2
+2021-1-9 9
+2021-1-23 6
+2020-12-8 4
+2021-1-7 8
+2021-1-3 2
+MEDIA: 4.7
+
+Ugolino Gino Ciampi Saracino
+2020-8-11 3
+2020-10-31 5
+MEDIA: 4.0
+
+Lando Satriani
+2020-9-12 8
+2020-8-3 5
+2020-9-29 10
+MEDIA: 7.7
+
+Telemaco Luxardo
+2021-1-3 6
+2020-10-9 8
+MEDIA: 7.0
+
+Orlando Rembrandt Alfonsi Gentili
+2020-11-24 9
+2020-9-12 7
+2021-1-18 4
+2020-11-11 6
+2020-12-17 4
+2020-12-11 6
 MEDIA: 6.0
 
-Ugo Vai
-2020-11-10 10
-2020-11-10 3
+Claudio Leopoldo Tagliafierro
+2021-1-3 4
+2020-11-22 9
+2020-11-11 7
+2020-11-30 10
+2020-10-19 10
+MEDIA: 8.0
+
+Simone Tarantini Soffici
+2020-9-9 5
+2020-11-22 6
+2020-9-14 3
+2020-10-30 2
+MEDIA: 4.0
+
+Luchino Munari
+2021-1-6 4
+2020-12-8 2
+2020-10-8 7
+2020-8-2 6
+MEDIA: 4.8
+
+Silvio Jacopo Tonisto
+2020-9-29 4
+2021-1-26 10
+2020-9-3 7
+2020-8-2 2
+MEDIA: 5.8
+
+Ciro Deledda Canali
+2020-10-31 10
+2021-1-7 9
+MEDIA: 9.5
+
+Gianni Marcantonio Bettoni
+2020-8-20 8
+2020-8-31 6
+2021-1-5 5
+2020-9-9 9
+MEDIA: 7.0
+
+Pellegrino Berengario
+2021-1-6 4
+2020-9-7 6
+MEDIA: 5.0
+
+Edoardo Giampiero Giradello Maderno
+2020-8-13 10
+2020-12-12 4
+2020-11-19 7
+2020-8-11 8
+2020-10-19 9
+2021-1-9 8
+MEDIA: 7.7
+
+Silvia Filippa Lollobrigida Cignaroli
+2020-12-4 2
+2020-11-19 4
+2020-10-30 3
+MEDIA: 3.0
+
+Paoletta Solari
+2020-8-20 9
+MEDIA: 9.0
+
+Pellegrino Curci Nievo
+2020-8-12 3
+2020-9-19 8
+2020-11-24 7
+MEDIA: 6.0
+
+Fabrizia Jolanda Rusticucci
+2020-10-8 7
+2020-11-19 2
+2020-8-26 4
+MEDIA: 4.3
+
+Veronica Travaglio
+2020-8-1 9
+2020-12-31 8
+2020-10-12 5
+2020-8-31 9
+MEDIA: 7.8
+
+Ronaldo Elladio Lancisi
+2020-8-31 4
+2020-12-1 3
+2021-1-11 6
+2020-12-7 8
+2020-10-12 5
+MEDIA: 5.2
+
+Maurizio Giovanni Navarria
+2021-1-3 5
+2020-11-23 9
+2020-11-1 8
+MEDIA: 7.3
+
+Achille Parmitano
+2020-9-3 8
+2021-1-26 5
 MEDIA: 6.5
 
-Luigi Della Valle Di Sotto
-2020-12-7 5
-MEDIA: 5.0
+Margherita Ludovica Grisoni Galiazzo
+2020-11-20 2
+2020-9-29 2
+MEDIA: 2.0
+
+Fausto Beccheria
+2020-9-9 2
+MEDIA: 2.0
 

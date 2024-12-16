@@ -39,24 +39,26 @@ void updateOutput (FILE *fp_out, struct studente studenti[MAX_STUDENTI], int n_s
 void stampaDatiDebug(struct studente studenti[MAX_STUDENTI], int n_studenti);
 #endif
 
-int main()
+int main(int argc, char *argv[])
 {
    // dichiarazione degli studenti
    struct studente studenti[MAX_STUDENTI];
    int n_studenti;
-   char fileIn[MAX_LEN], fileOut[MAX_LEN];
 
    n_studenti = 0;
+
+   if(argc != 3)
+   {
+      printf("argomenti non validi\n");
+      exit(EXIT_FAILURE);
+   }
 
    // apertura dei file
    FILE *fp_in;
    FILE *fp_out;
 
-   scanf("%s", fileIn);
-   scanf("%s", fileOut);
-
-   fp_in = fopen(fileIn, "r");
-   fp_out = fopen(fileOut, "w");
+   fp_in = fopen(argv[1], "r");
+   fp_out = fopen(argv[2], "w");
 
    if((fp_in == NULL) || (fp_out == NULL))
    {
