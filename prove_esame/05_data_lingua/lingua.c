@@ -3,14 +3,14 @@
 #include <string.h>
 
 #define MAX_LEN_COD 3
-#define MAX_LEN_TRAD 100
-#define MAX_LEN 32
+#define MAX_LEN_TRAD 10
+#define MAX_LEN 64
 #define N_MESI 12
 
 struct dict_mese
 {
    char cod[MAX_LEN_COD + 1];
-   char traduzioni[MAX_LEN][MAX_LEN_TRAD];
+   char traduzioni[MAX_LEN_TRAD][MAX_LEN];
 };
 
 struct dizionario
@@ -89,15 +89,15 @@ struct dizionario parseDict(FILE *fp)
    {
       // leggi il codice del mese
       fscanf(fp, "%3s ", dict.mesi[i].cod);
-      printf("COD Mese %d: %s\n", i, dict.mesi[i].cod);
+      //printf("COD Mese %d: %s\n", i, dict.mesi[i].cod);
       // leggi le traduzioni del mese
       int j;
       for (j = 0; j < dict.nLingue; j++)
       {
          fscanf(fp, "%s ", dict.mesi[i].traduzioni[j]);
-         printf("traduzione %d: %s\n", j, dict.mesi[i].traduzioni[j]);
+         //printf("traduzione %d: %s\n", j, dict.mesi[i].traduzioni[j]);
          
-         printf("traduzione %d: %s\n", j-1, dict.mesi[i].traduzioni[j-1]);
+         //printf("traduzione %d: %s\n", j-1, dict.mesi[i].traduzioni[j-1]);
       }
 
       i++;
