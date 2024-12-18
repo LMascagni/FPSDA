@@ -3,7 +3,7 @@
 #include <string.h>
 
 #define MAX_LEN_COD 3
-#define MAX_LEN_TRAD 10
+#define MAX_LEN_TRAD 100
 #define MAX_LEN 32
 #define N_MESI 12
 
