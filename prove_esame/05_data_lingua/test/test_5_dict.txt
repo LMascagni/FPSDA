@@ -1,0 +1,13 @@
+Nlingue 4 ES SI NL FR
+JAN enero januar januari janvier
+FEB febrero februar februari fevrier
+MAR marzo marec maart mars
+APR abril april april avril
+MAY mayo maj mei mai
+JUN junio junij juni juin
+JUL julio julij juli juillet
+AUG agosto avgust augustus aout
+SEP septiembre september september septembre
+OCT octubre oktober oktober octobre
+NOV noviembre november november novembre
+DEC diciembre december december decembre

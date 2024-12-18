@@ -1,0 +1,13 @@
+Nlingue 8 ES IT SI RO DE US NL FR
+JAN enero Gennaio januar Ianuarie Januar January januari janvier
+FEB febrero Febbraio februar Februarie Februar February februari fevrier
+MAR marzo Marzo marec Martie Marz March maart mars
+APR abril Aprile april Aprilie April April april avril
+MAY mayo Maggio maj Mai Mai May mei mai
+JUN junio Giugno junij Iunie Juni June juni juin
+JUL julio Luglio julij Iulie Juli July juli juillet
+AUG agosto Agosto avgust August August August augustus aout
+SEP septiembre Settembre september Septembrie September September september septembre
+OCT octubre Ottobre oktober Octombrie Oktober October oktober octobre
+NOV noviembre Novembre november Noiembrie November November november novembre
+DEC diciembre Dicembre december Decembrie Dezember December december decembre

@@ -1,0 +1,13 @@
+Nlingue 3 US DE SI
+JAN January Januar januar
+FEB February Februar februar
+MAR March Marz marec
+APR April April april
+MAY May Mai maj
+JUN June Juni junij
+JUL July Juli julij
+AUG August August avgust
+SEP September September september
+OCT October Oktober oktober
+NOV November November november
+DEC December Dezember december

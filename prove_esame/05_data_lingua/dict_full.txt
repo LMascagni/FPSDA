@@ -1,0 +1,13 @@
+Nlingue 3  IT EN FR 
+JAN gennaio January  janvier 
+FEB febbraio February février 
+MAR marzo March mars 
+APR aprile April avril
+MAG maggio May mai
+GIU giugno June juin
+LUG luglio July juillet
+AGO agosto August août
+SET settembre September septembre
+OTT ottobre October octobre
+NOV novembre November novembre
+DIC dicembre December décembre

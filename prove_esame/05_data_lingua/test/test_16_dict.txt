@@ -1,0 +1,13 @@
+Nlingue 4 ES DE SI IT
+JAN enero Januar januar Gennaio
+FEB febrero Februar februar Febbraio
+MAR marzo Marz marec Marzo
+APR abril April april Aprile
+MAY mayo Mai maj Maggio
+JUN junio Juni junij Giugno
+JUL julio Juli julij Luglio
+AUG agosto August avgust Agosto
+SEP septiembre September september Settembre
+OCT octubre Oktober oktober Ottobre
+NOV noviembre November november Novembre
+DEC diciembre Dezember december Dicembre

@@ -1,0 +1,13 @@
+Nlingue 6 IT ES FI PT DE RO
+JAN Gennaio enero Tammikuu Janeiro Januar Ianuarie
+FEB Febbraio febrero Helmikuu Fevereiro Februar Februarie
+MAR Marzo marzo Maaliskuu Marco Marz Martie
+APR Aprile abril Huhtikuu Abril April Aprilie
+MAY Maggio mayo Toukokuu Maio Mai Mai
+JUN Giugno junio Kesakuu Junho Juni Iunie
+JUL Luglio julio Heinakuu Julho Juli Iulie
+AUG Agosto agosto Elokuu Agosto August August
+SEP Settembre septiembre Syyskuu Setembro September Septembrie
+OCT Ottobre octubre Lokakuu Outubro Oktober Octombrie
+NOV Novembre noviembre Marraskuu Novembro November Noiembrie
+DEC Dicembre diciembre Joulukuu Dezembro Dezember Decembrie

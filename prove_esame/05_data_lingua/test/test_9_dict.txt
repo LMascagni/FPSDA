@@ -1,0 +1,13 @@
+Nlingue 2 PT ES
+JAN Janeiro enero
+FEB Fevereiro febrero
+MAR Marco marzo
+APR Abril abril
+MAY Maio mayo
+JUN Junho junio
+JUL Julho julio
+AUG Agosto agosto
+SEP Setembro septiembre
+OCT Outubro octubre
+NOV Novembro noviembre
+DEC Dezembro diciembre

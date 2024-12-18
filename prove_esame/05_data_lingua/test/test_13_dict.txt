@@ -1,0 +1,13 @@
+Nlingue 5 US IT FR SI ES
+JAN January Gennaio janvier januar enero
+FEB February Febbraio fevrier februar febrero
+MAR March Marzo mars marec marzo
+APR April Aprile avril april abril
+MAY May Maggio mai maj mayo
+JUN June Giugno juin junij junio
+JUL July Luglio juillet julij julio
+AUG August Agosto aout avgust agosto
+SEP September Settembre septembre september septiembre
+OCT October Ottobre octobre oktober octubre
+NOV November Novembre novembre november noviembre
+DEC December Dicembre decembre december diciembre

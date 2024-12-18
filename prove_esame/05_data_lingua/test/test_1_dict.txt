@@ -1,0 +1,13 @@
+Nlingue 4 FI FR PT SI
+JAN Tammikuu janvier Janeiro januar
+FEB Helmikuu fevrier Fevereiro februar
+MAR Maaliskuu mars Marco marec
+APR Huhtikuu avril Abril april
+MAY Toukokuu mai Maio maj
+JUN Kesakuu juin Junho junij
+JUL Heinakuu juillet Julho julij
+AUG Elokuu aout Agosto avgust
+SEP Syyskuu septembre Setembro september
+OCT Lokakuu octobre Outubro oktober
+NOV Marraskuu novembre Novembro november
+DEC Joulukuu decembre Dezembro december

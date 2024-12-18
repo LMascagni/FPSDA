@@ -1,0 +1,13 @@
+Nlingue 8 ES SI DE NL US FI RO PT
+JAN enero januar Januar januari January Tammikuu Ianuarie Janeiro
+FEB febrero februar Februar februari February Helmikuu Februarie Fevereiro
+MAR marzo marec Marz maart March Maaliskuu Martie Marco
+APR abril april April april April Huhtikuu Aprilie Abril
+MAY mayo maj Mai mei May Toukokuu Mai Maio
+JUN junio junij Juni juni June Kesakuu Iunie Junho
+JUL julio julij Juli juli July Heinakuu Iulie Julho
+AUG agosto avgust August augustus August Elokuu August Agosto
+SEP septiembre september September september September Syyskuu Septembrie Setembro
+OCT octubre oktober Oktober oktober October Lokakuu Octombrie Outubro
+NOV noviembre november November november November Marraskuu Noiembrie Novembro
+DEC diciembre december Dezember december December Joulukuu Decembrie Dezembro

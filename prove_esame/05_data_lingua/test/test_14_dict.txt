@@ -1,0 +1,13 @@
+Nlingue 4 FR NL PT RO
+JAN janvier januari Janeiro Ianuarie
+FEB fevrier februari Fevereiro Februarie
+MAR mars maart Marco Martie
+APR avril april Abril Aprilie
+MAY mai mei Maio Mai
+JUN juin juni Junho Iunie
+JUL juillet juli Julho Iulie
+AUG aout augustus Agosto August
+SEP septembre september Setembro Septembrie
+OCT octobre oktober Outubro Octombrie
+NOV novembre november Novembro Noiembrie
+DEC decembre december Dezembro Decembrie
