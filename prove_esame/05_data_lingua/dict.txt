@@ -1,0 +1,5 @@
+Nlingue 3  IT EN FR 
+JAN   gennaio January  janvier 
+FEB   febbraio February février 
+MAR marzo March mars 
+APR aprile April avril
