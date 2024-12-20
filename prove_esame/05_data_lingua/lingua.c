@@ -17,7 +17,7 @@ struct dizionario
 {
    struct dict_mese mesi[N_MESI];
    int nLingue;
-   char codLingue[MAX_LEN][MAX_LEN_TRAD];
+   char codLingue[MAX_LEN_TRAD][MAX_LEN];
 };
 
 struct dizionario parseDict(FILE *fp);
