@@ -20,9 +20,8 @@ struct pasto
 };
 
 int leggi_file(FILE *fp, struct pasto l_pasti[MAX_DATE]);
-//! ERR 3 - nel secondo file la data non ha come separatore '/' ma ha '-'
-//? proposta: aggiungere un nuovo argomento per il carattere separatore
-struct sdata estrai_data(char data[MAX_STR_LEN]);
+//* COR 3 - aggiunto un nuovo argomento per il carattere separatore
+struct sdata estrai_data(char data[MAX_STR_LEN], char separatore);
 void conta_voti(FILE *fp, struct pasto l_pasti[MAX_DATE], int n_pasti);
 void incrementa_voto(struct pasto l_pasti[MAX_DATE], struct pasto pasto, int n_pasti);
 int cerca_pasto(struct pasto l_pasti[MAX_DATE], struct pasto pasto, int n_pasti);
@@ -73,8 +72,7 @@ int leggi_file(FILE *fp, struct pasto l_pasti[MAX_DATE])
 
    while(fscanf(fp, "%s %s", l_pasti[i].p_c, data) != EOF)
    {
-      l_pasti[i].data = estrai_data(data);
-      //printf("%s -> %d %d %d\n", data, l_pasti[i].data.g, l_pasti[i].data.m, l_pasti[i].data.a);
+      l_pasti[i].data = estrai_data(data, '/');
       l_pasti[i].voti = 0;
       i++;
    }
@@ -82,22 +80,25 @@ int leggi_file(FILE *fp, struct pasto l_pasti[MAX_DATE])
    return i;
 }
 
-struct sdata estrai_data(char data[MAX_STR_LEN])
+struct sdata estrai_data(char data[MAX_STR_LEN], char separatore)
 {
-   //! ERR 1 - non ho inizializzato la stuttura temporanea
    struct sdata sdata;
+   //* COR 1 - inizializzazione a zerodella struttura temporanea
+   sdata.g = 0;
+   sdata.m = 0;
+   sdata.a = 0;
 
    int i;
    i = 0;
 
-   while(data[i] != '/')
+   while(data[i] != separatore)
    {
       sdata.g = (sdata.g * 10) + (data[i] - '0');
       i++;
    }
    i++;
 
-   while(data[i] != '/')
+   while(data[i] != separatore)
    {
       sdata.m = (sdata.m * 10) + (data[i] - '0');
       i++;
@@ -120,12 +121,14 @@ void conta_voti(FILE *fp, struct pasto l_pasti[MAX_DATE], int n_pasti)
    char p_c[MAX_STR_LEN];
    struct pasto pasto_attuale;
 
-   //! ERR 2 - errore nella lettura del cognome e nome.
-   //? basta rimuovere la virgola e i due punti
+   //* COR 2 - errore nella lettura del cognome e nome.
+   //*         rimozione della virgola e dei due punti nella formattazione della fscanf
+   //*                      _    _
+   //* while(fscanf(fp, "%*s, %*s: %s %s", data, p_c) != EOF)
    
-   while(fscanf(fp, "%*s, %*s: %s %s", data, p_c) != EOF)
+   while(fscanf(fp, "%*s %*s %s %s", data, p_c) != EOF)
    {
-      pasto_attuale.data = estrai_data(data);
+      pasto_attuale.data = estrai_data(data, '-');
       //printf("%s -> %d %d %d\n", data, pasto_attuale.data.g, pasto_attuale.data.m, pasto_attuale.data.a);
       strcpy(pasto_attuale.p_c, p_c);
       incrementa_voto(l_pasti, pasto_attuale, n_pasti);
