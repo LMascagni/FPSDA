@@ -27,7 +27,7 @@ void incrementa_voto(struct pasto l_pasti[MAX_DATE], struct pasto pasto, int n_p
 int cerca_pasto(struct pasto l_pasti[MAX_DATE], struct pasto pasto, int n_pasti);
 int datecmp(struct sdata d1, struct sdata d2);
 void stampa_risultati(struct pasto l_pasti[MAX_DATE], int n_pasti);
-int cerca_voto_massimo(struct pasto l_pasti[MAX_DATE], int n_pasti);
+int cerca_voto_massimo(struct pasto l_pasti[MAX_DATE], int n_pasti);   
 
 int main (int argc, char *argv[])
 {
@@ -126,7 +126,7 @@ void conta_voti(FILE *fp, struct pasto l_pasti[MAX_DATE], int n_pasti)
    //*                      _    _
    //* while(fscanf(fp, "%*s, %*s: %s %s", data, p_c) != EOF)
    
-   while(fscanf(fp, "%*s %*s %s %s", data, p_c) != EOF)
+   while(fscanf(fp, "%*[^,], %*[^:]: %s %s", data, p_c) != EOF)
    {
       pasto_attuale.data = estrai_data(data, '-');
       //printf("%s -> %d %d %d\n", data, pasto_attuale.data.g, pasto_attuale.data.m, pasto_attuale.data.a);

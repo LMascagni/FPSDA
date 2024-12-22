@@ -1,5 +1,5 @@
-a, L: 6-1-2025 pranzo
-a, L: 31-12-2024 cena
+a b, L: 6-1-2025 pranzo
+a b, L: 31-12-2024 cena
 a, L: 6-1-2025 cena
 a, L: 31-12-2024 cena
 a, L: 31-12-2024 cena
