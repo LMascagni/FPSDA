@@ -1,10 +1,13 @@
 {
   "files.associations": {
-    "compare": "c",
-    "utility.h": "c",
-    "vett_lib.h": "c",
-    "stdlib.h": "c"
-  },
+   "compare": "c",
+   "utility.h": "c",
+   "vett_lib.h": "c",
+   "stdlib.h": "c",
+   "array.h": "c",
+   "lista.h": "c",
+   "stdbool.h": "c"
+},
   "C_Cpp.default.compilerPath": "/usr/bin/gcc",
   "C_Cpp_Runner.cCompilerPath": "gcc",
   "C_Cpp_Runner.cppCompilerPath": "g++",
