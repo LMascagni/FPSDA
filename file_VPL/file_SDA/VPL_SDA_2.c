@@ -18,7 +18,10 @@ nodo_lista *minimo_lista(nodo_lista *t)
    while (t != NULL)
    {
       if (t->dato < min->dato)
+      {
          min = t;
+         min->succ = t->succ;
+      }
       t = t->succ;
    }
 
