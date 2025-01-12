@@ -37,6 +37,8 @@ Un algoritmo risolve un problema
 Un programma è l'implementazione di un algoritmo in un linguaggio di prgrammazione
 Sostanzialmente è la concretizzazione di un algoritmo in modo che sia eseguibile da un computer
 
+---
+
 ### PROBLEMI DECIDIBILI E INDECIDIBILI
 
 #### PROBLEMI DECIDIBILI
@@ -93,6 +95,8 @@ Dove ogni blocco svolge una funzione differente e specifica:
 Ciascuna funzione crea un suo spazio specifico di emmorizzazione nello *stack* detto **record di attivazione**
 
 Esso conteiene tutte le variabili locali della funzione, i suai parametri e i valori di ritorno
+
+---
 
 ### LA RICORSONE
 
@@ -177,6 +181,8 @@ Contro:
 
 **Problema intrattabile**: non esiste un algoritmo polinomiale che lo risolve
 
+---
+
 ### CLASSI DI COMPLESSITA' DEI PROBLEMI
 
    ![classi di compessità](img/classi_complessita.png)
@@ -185,6 +191,8 @@ Contro:
 - $EXP$ classe dei problemi risolvibili in tempo esponenziale
 - $NP$ classe dei problemi per i quali verificare una soluzione richiede tempo polinomiale
 - $NPC$ classe dei problemi completi per $NP$, detti $NP-Completi$
+
+---
 
 ### ANALISI DELLA COMPLESSITA'
 
@@ -230,6 +238,8 @@ La **notazione asintotica** descrive il comportamento di un algoritmo quando la 
      g(n) \in Θ(f(n)) \quad \text{se e solo se esistono costanti } c_1, c_2 > 0 \text{ e } n_0 > 0 \text{ tali che: } c_1 \cdot f(n) \leq g(n) \leq c_2 \cdot f(n) \quad \forall n \geq n_0
      $$
    - **Esempio**: Se \(f(n) = 3n^2 + 5n + 2\), allora \(f(n) \in Θ(n^2)\).
+
+---
 
 #### Ordini di Complessità
 
@@ -306,6 +316,8 @@ Gli ordini di complessità rappresentano le classi di crescita degli algoritmi. 
 - Somma: $g(n)+f(n)=O(max \{f(n),g(n)\})$ (lo stesso per Ω e Θ)
 - Prodotto: $g(n)=O(f(n))$ , $h(n)=O(q(n))$ allora $g(n) \cdot h(n)=O(f(n) \cdot q(n))$ (lo stesso per Ω e Θ)
 
+---
+
 ### ANALISI STRUTTURALE
 
 Per gli algoritmi descritti in un linguaggio imperativo (come il C) è possibile definire delle regole che consentono di stimare la loro complessità computazionale direttamente dalla struttura del programma stesso
@@ -355,6 +367,8 @@ $$
   - diretto: dato $j$ si accede solo ad $a_j$ (**array**)
   - sequenziale: dato $j$ è necessario accedere ad $a_0,a_1,...,a_{n-1}$ per poi accedere ad $a_j$ (**liste**)
 
+---
+
 ### ALLOCAZIONE DINAMICA DELLA MEMORIA IN C
 
 La gestione dello heap da parte del programmatore avviene, in linguaggio C, attraverso le seguenti istruzioni:
@@ -374,6 +388,8 @@ Come specificare a `malloc()` di quanti byte avrò effettivamente bisogno senza 
 Per l'elaborazione è neccessario anche poter rappresentare un puntatore non inizializzato
 
 - la costante simbolica `NULL` , di tipo puntatore, indica un puntatore che non punta a nessuna locazione di memoria
+
+---
 
 ### ARRAY
 
@@ -585,6 +601,8 @@ void stampa_vettore_dinamico(vettore_dinamico v) {
   - Vincolo forte sul tipo di dato contenuto nell'array
     - in principio dovremmo definire un nuovo descrittore e “ricopiare il codice” delle funzioni per adattare i dati ad un altro tipo diverso da `float`
 
+---
+
 ### LISTE
 
 Una lista è l'implementazione concreta di una struttura dati sequenza ad accesso sequenziale.  
@@ -632,3 +650,432 @@ p->dato = 5;         // accesso semplificato (accedo al campo dato puntato da p)
   - il successore **non esiste** nel caso $j = n-1$, in tal caso il puntatore è `NULL`
 - Il nodo $a_{j-1}$, se $j>0$, è detto **predecessore** del nodo
   - **non esiste** predecessore della testa
+
+#### Operazioni di Accesso
+
+Accesso ad $a_j$: scandire i primi $j$ elementi, iniziando da $a_0$ e accedere via via al successivo:
+tempo totale $O(j+1)$ (qualora si possa partire da $a_{j-k}$ il costo è $O(k)$)
+
+```c
+nodo_lista* elemento_lista(nodo_lista* t, int j) {
+   // questo frammento di codice può essere usato anche fuori dalla funzione
+   int i = 0;
+   nodo_lista *c = t; // t è la testa della lista, c è il nodo corrente
+   while (i < j && c != NULL) {
+      i++;
+      c = c->succ;
+   }
+   // se i >= j vuol dire che la lista non aveva almeno j elementi
+   // in tal caso c == NULL
+   return c;
+}
+```
+
+Caso pessimo: $O(n)$, con $n$ lunghezza della lista
+
+#### lunghezza
+
+Per conoscere la lunghezza della lista, senza alcun'altra informazione, devo scandirla interamente contando di quanti elementi è costituita
+
+```c
+int lunghezza_lista(nodo_lista* t) {
+   int i = 0;
+   nodo_lista *c = t; // t è la testa della lista, c è il nodo corrente
+   while (c != NULL) {
+      i++;
+      c = c->succ;
+   }
+   return i;
+}
+```
+
+#### Inserimento in testa
+
+Inserimento in testa alla lista dell'elemento `s` (`t` è la testa precedente)
+
+```c
+nodo_lista* inserisci_in_testa(nodo_lista *t t,
+   nodo_lista *s) {
+   s->succ = t;
+   t = s;
+   return t;
+}
+```
+
+Tempo $O(1)$
+
+#### Inserimento in coda
+
+Inserimento in coda alla lista dell'elemento `s`:
+
+```c
+nodo_lista* inserisci_lista_coda(nodo_lista *t t,
+   nodo_lista *s) {
+   nodo_lista* c = t;
+   if (c == NULL) {
+      t = s;
+      return s;
+   }
+   // cerca l'ultimo elemento della lista
+   while (c->succ != NULL)
+      c = c->succ;
+   // aggiungi l'elemento in coda
+   c->succ = s;
+   s->succ = NULL;
+   return t;
+}
+```
+
+Tempo $O(n)$, dovuto alla ricerca dell'elemento in coda attraverso `c` . Qualora si memorizzasse sempre anche il puntatore all'ultimo elemento della lista: $O(1)$
+
+#### Descrittore
+
+Analogamente al caso degli array, per riunire in un unico contenitore tutte le informazioni relative ad una lista utilizziamo un descrittore che rappresenta la lista e verrà modificato dalla funzioni di manipolazione delle liste
+
+```c
+typedef struct {
+   // per la manipolazione della lista e l'accesso sequenziale
+   nodo_lista *testa;
+   // per rendere più efficiente l'eventuale inserimento in coda
+   nodo_lista *coda;
+   // per rendere più efficiente l'interrogazione sulla lunghezza della lista
+   int lunghezza;
+} lista;
+```
+
+**Convenzione**: tutte le operazioni di manipolazione di liste *restituiscono* (direttamente o per
+passaggio per riferimento) il nuovo descrittore alla lista
+
+#### Creazione dei nodi e del descrittore
+
+```c
+nodo_lista *crea_nodo(float dato) {
+   nodo_lista *n = (nodo_lista*)malloc(sizeof(nodo_lista));
+   n->dato = dato;
+   n->succ = NULL;
+  return n;
+}
+
+lista crea_lista() {
+   lista l;
+   l.testa = NULL;
+   l.coda = NULL;
+   l.lunghezza = 0;
+   return l;
+}
+```
+
+#### Inserimento in testa e in coda con il descrittore
+
+```c
+void aggiungi_in_testa(lista *l, float dato) {
+   nodo_lista *n = crea_nodo(dato);
+   if (l->lunghezza == 0)
+      l->coda = n;
+   n->succ = l->testa;
+   l->testa = n;
+   // dobbiamo mantenere la coerenza
+   // anche di questo dato
+   l->lunghezza++;
+}
+
+void aggiungi_in_coda(lista *l, float dato) {
+   nodo_lista *n = crea_nodo(dato);
+   if (l->lunghezza > 0) {
+      l->coda->succ = n;
+   } else {
+      l->testa = n;
+   }
+   l->coda = n;
+   // dobbiamo mantenere la coerenza
+   // anche di questo dato
+   l->lunghezza++;
+}
+```
+
+#### Eliminazione in testa con il descrittore
+
+```c
+void elimina_in_testa(lista *l) {
+   nodo_lista *n = l->testa;
+   // se la lista è vuota non c'è
+   // nulla da eliminare
+   if (l->lunghezza == 0)
+      return;
+   // altrimenti sposta i puntatori
+   l->testa = l->testa->succ;
+   // aggiorna la lunghezza
+   l->lunghezza--;
+   // elimina il nodo
+   elimina_nodo(n);
+   // mantieni la coda coerente
+   if (l->lunghezza == 0)
+      l->coda = NULL;
+}
+```
+
+#### Eliminazione in coda con il descrittore
+
+```c
+void elimina_in_coda(lista *l) {
+   nodo_lista *c = l->testa, *n = l->coda;
+   if (l->lunghezza == 0)
+      return;
+   // cerca il predecessore della coda
+   // che diventerà la nuova coda
+   if (l->lunghezza == 1) {
+      l->testa = NULL;
+      l->coda = NULL;
+   }
+   else
+   {
+      while (c->succ != n)
+         c = c->succ;
+      l->coda = c;
+      l->coda->succ = NULL;
+   }
+   l->lunghezza--;
+   elimina_nodo(n);
+}
+```
+
+#### Proprietà e stampa
+
+```c
+int lunghezza(lista l) {
+   return l.lunghezza;
+}
+
+bool lista_vuota(lista l) {
+   return l.lunghezza == 0;
+}
+
+void stampa_lista(lista l) {
+   nodo_lista *n = l.testa;
+   while (n != NULL) {
+      printf("%g ", n->dato);
+   n = n->succ;
+   }
+   if (l.lunghezza > 0)
+      printf("\n");
+}
+```
+
+#### Eliminazione della lista e dei nodi
+
+```c
+void elimina_lista(lista *l) {
+   nodo_lista *n = l->testa;
+   while (n != NULL) {
+      nodo_lista *s = n->succ;
+      elimina_nodo(n);
+      n = s;
+   }
+   l->testa = NULL;
+   l->coda = NULL;
+   l->lunghezza = 0;
+}
+
+void elimina_nodo(nodo_lista *n) {
+   free(n);
+   n = NULL;
+}
+```
+
+#### Considerazioni sulle Liste
+
+- Vantaggi
+  - dimensione dinamica senza necessità di sovradimensionamento
+  - possibilità di inserimento di un nuovo elemento o di eliminazione di un elemento esistente in qualunque punto della sequenza
+    -a differenza dei vettori nei quali posso solo aggiungere ed eliminare alla fine del vettore
+
+- Svantaggi
+  - tempo di accesso dipendente dalla posizione dell'elemento
+  - assimmetria nelle operazioni di accesso sequenziali per indici crescenti (facile, $O(1)$) o decrescenti (costosa, $O(n^2)$)
+
+---
+
+### LISTE DOPPIE
+
+Uno degli svantaggi della lista (semplice) è la necessità di ripartire dalla sua testa qualora sia necessario trovare il predecessore di un elemento
+
+- ad esempio per effettuare un inserimento in coda o l'eliminazione di un nodo arbitrario
+
+Ovviamo a questa limitazione con una struttura leggermente diversa in cui viene mantenuto anche il puntatore all'elemento precedente  
+Ciò consente lo spostamento, seppur sequenziale, da qualunque nodo in entrambe le direzioni (avanti e indietro)
+
+La struttura è analoga a quella della lista semplice, il descrittore è praticamente uguale, cambia la descrizione del singolo nodo
+
+```c
+typedef struct _nodo_lista_doppia {
+   float dato; // dato contenuto nel nodo corrente
+   struct _nodo_lista_doppia* succ; // successore del nodo corrente
+   struct _nodo_lista_doppia* pred; // predecessore del nodo corrente
+} nodo_lista_doppia;
+
+typedef struct {
+   nodo_lista_doppia* testa;
+   nodo_lista_doppia* coda;
+   int lunghezza;
+} lista_doppia;
+```
+
+#### Operazioni (`liste.h`)
+
+Sostanzialmente simili a quelle della lista semplice, con la differenza di dover mantenere la coerenza anche del puntatore all'elemento precedente, ad esempio:
+
+```c
+void aggiungi_in_testa_d(lista_doppia *l, float dato) {
+   nodo_lista_doppia *n = crea_nodo_d(dato);
+   if (l->lunghezza == 0)
+   l->coda = n;
+   if (l->lunghezza > 0)
+      l->testa->pred = n; // anche il predecessore va mantenuto coerente
+   n->succ = l->testa;
+   l->testa = n;
+   l->lunghezza++;
+}
+```
+
+#### Complessità
+
+| Operazione | Lista Semplice  (senza puntatori aggiuntivi) | Lista Semplice  (con puntatori aggiuntivi) | Lista Doppia |
+|:-----------|:--------------------------------------------:|:------------------------------------------:|:------------:|
+|Creazione| $O(1)$ | $O(1)$ | $O(1)$ |
+|Inserimento in testa| $O(1)$ | $O(1)$ | $O(1)$ |
+|Inserimento in coda| $O(n)$ | $O(1)$ | $O(1)$ |
+|Ricerca di un elemento| $O(n)$ | $O(n)$ | $O(n)$ |
+|Inserimento in un punto arbitrario| $O(n)$ | $O(1)$ | $O(1)$ |
+|Eliminazione in testa| $O(1)$ | $O(1)$ | $O(1)$ |
+|Eliminazione in coda| $O(n)$ | $O(n)$ | $O(1)$ |
+|Distruzione| $O(n)$ | $O(n)$ | $O(n)$ |
+
+## CAP 05 - ALGORITMI DI ORDINAMENTO
+
+### Il problema dell'ordinamento
+
+Data una **sequenza** di $n$ elementi e una loro relazione d'ordine $\leq$, disporre gli elementi **nell'array** in modo che risultino ordinati secondo la relazione $\leq$  
+Alcuni commenti:
+
+- La relazione d'ordine non è necessariamente quella crescente e dipende dal tipo di dato contenuto nel vettore, per ora considereremo interi e la relazione $\leq$ su di essi
+- La sequenza non è necessariamente contenuta in un array (ipotesi necessaria ora per le vostre conoscenze attuali)
+
+---
+
+### SELECTION SORT
+
+**Idea**: al passo $i$ seleziona l'elemento di rango $i$ ossia il minimo tra i rimanenti $n-i$ elementi e scambialo con l'elemento in posizione $i$
+
+```c
+void selection_sort(int a[], int n) {
+   int i, indice_minimo;
+   for (i = 0; i < n - 1; i++) {
+      indice_minimo = minimo_a_partire_da(a, n, i);
+      scambia(&a[i], &a[indice_minimo]);
+   }
+}
+
+int minimo_a_partire_da(int a[], int n, int i) {
+   int j, m = i;
+   for (j = i + 1; j < n; j++) {
+      if (a[j] < a[m])
+         m = j;
+   }
+   return m;
+}
+```
+
+A meno di componenti di costo costante, al passo $i$-esimo il costo del corpo del `for` è pari al costo $t(i,n)$ della chiamata della funzione `minimo_a_partire_da()`
+
+- esso non è costante ma dipende anche da $i$ (oltre che da $n$)
+- dunque il costo totale è pari a $\sum_{i=0}^{n-2} t(i,n) + O(1)$
+
+Il costo della funzione $t(i,n)$ in dipendenza di $i$ è proporzionale al numero di iterazioni del ciclo (più l'assegnamento esterno) quindi $t(i,n)=O(n-1)$
+
+Pertanto:
+$$
+\begin{align}
+T(n) &= \sum_{i=0}^{n-2} O(n-1) + O(1)=\\
+&=O(\sum_{i=0}^{n-2} n-1)=\\
+&=o(\sum_{i=0}^{n-1} i)=\\
+&=O(n^2)
+\end{align}
+$$
+
+A causa del calcolo del minimo fra gli elementi rimasti anche la complessità nel caso migliore è $O(n^2)$ (e quindi anche nel caso medio)
+
+### INSERTION SORT
+
+Idea: al passo $i$-esimo inserisci l'elemento in posizione $i$ al posto giusto tra i primi elementi (già ordinati)
+
+```c
+void insertion_sort(int a[], int n) {
+   int i, j, prossimo;
+   for (i = 1; i < n; i++) {
+      // estrae il prossimo elemento da inserire
+      prossimo = a[i];
+      // j è la posizione candidata all'inserimento
+      j = i;
+      // verifica se la posizione corrente
+      // è qeuella giusta
+      while (j > 0 && a[j - 1] > prossimo) {
+         // altrimenti fai spazio
+         a[j] = a[j - 1];
+         j = j - 1;
+      }
+      a[j] = prossimo;
+   }
+}
+```
+
+Per poter inserire in un qualunque punto fra gli elementi già ordinati devo fare spazio (non posso modificare un vettore creando un elemento in un punto qualunque)  
+Il ciclo `while` , se necessario, sposta gli elementi verso destra per fare spazio al prossimo elemento da inserire
+
+Al passo $i$ del `for` esterno il costo è, praticamente, dominato dal costo $t(i)$ del ciclo `while` interno
+
+- Il ciclo `while` richiede al massimo $i+1$ iterazioni, ciascuna di costo costante
+  - $t(i)=O(i+1)$ per il ciclo `while`  
+  In totale: $\sum_{i=0}^{n-1} O(i+1)=O(\sum_{i=0}^{n-1} i+1) = O(\frac{n(n+1)}{2})=O(n^2)$
+
+**Osservazione**: l'algoritmo richiede solo $O(n)$ operazioni quando l'array è già ordinato
+
+- In generale, è possibile provare che l'algoritmo richiede tempo $O(nk)$ se ciascun elemento si trova al più a distanza dalla sua posizione nell'array ordinato (quindi parecchio efficiente per array quasi ordinati)
+
+### BUBBLE SORT
+
+Idea: confrontare gli elementi a coppie e fare salire i valori più grandi verso la fine dell'array (e scendere quelli più piccoli verso l'inizio)
+
+```c
+void bubble_sort(int a[], int n) {
+   int i, k = n - 1;
+   bool scambio = true;
+   while (scambio) {
+      scambio = false;
+      for (i = 0; i < k; i++)
+         if (a[i] > a[i + 1]) {
+            scambia(&a[i], &a[i + 1])
+            scambio = true;
+         }
+      k = k - 1;
+   }
+}
+```
+
+All'iterazione $i=1,...,n$ del ciclo `while` l'elemento di posizione $n-1=k$ sarà salito nella sua posizione definitiva
+
+- la porzione di vettore compresa fra gli indici $k$ e $n-1$ è ordinata
+- Al passo $k$ del ciclo `while` il costo del suo corpo $t(k)$ è dominato dal ciclo for interno che richiede tempo $O(k)$
+
+Il corpo del ciclo `while` può essere eseguito al più $n$ volte (per $k=n-1,...,0$) quindi in totale
+$$
+T(n) = \sum_{i=0}^{n-1} t(k)= \sum_{i=0}^{n-1} O(k)=O(\sum_{i=0}^{n-1} k) = O(\frac{n(n+1)}{2})=O(n^2)
+$$
+Nel caso di un array già ordinato, il numero di operazioni svolte è $O(n)$, corrispondenti all'esecuzione del ciclo `for` che determina che nessuno scambio è necessario e in tal caso il ciclo `while` viene eseguito una volta sola.
+
+### RIEPILOGO DEGLI ALGORITMI
+
+|Algoritmo|Idea|Caso Pessimo|Caso Ottimo|
+|-|-|-|-|
+|Selection sort|Cerco (seleziono) l'elemento minimo fra quelli rimasti da ordinare e lo scambio con l'elemento corrente | $O(n^2)$| $O(n^2)$|
+|Insertion sort|Cerco di inserire l'elemento corrente fra quelli precedenti, già ordinati | $O(n^2)$| $O(n)$|
+|Bubble sort|Effettuo più passaggi facendo affiorare gli elementi più grandi, finché non sono necessari più scambi | $O(n^2)$| $O(n)$|
