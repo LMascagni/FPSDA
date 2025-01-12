@@ -227,11 +227,9 @@ La **notazione asintotica** descrive il comportamento di un algoritmo quando la 
    Indica che un algoritmo cresce esattamente al ritmo indicato.  
    - Formalmente:  
      $$
-     g(n) \in Θ(f(n)) \quad \text{se e solo se esistono costanti } c_1, c_2 > 0 \text{ e } n_0 > 0 \text{ tali che: } 
-     c_1 \cdot f(n) \leq g(n) \leq c_2 \cdot f(n) \quad \forall n \geq n_0
+     g(n) \in Θ(f(n)) \quad \text{se e solo se esistono costanti } c_1, c_2 > 0 \text{ e } n_0 > 0 \text{ tali che: } c_1 \cdot f(n) \leq g(n) \leq c_2 \cdot f(n) \quad \forall n \geq n_0
      $$
    - **Esempio**: Se \(f(n) = 3n^2 + 5n + 2\), allora \(f(n) \in Θ(n^2)\).
-
 
 #### Ordini di Complessità
 
@@ -367,7 +365,7 @@ La gestione dello heap da parte del programmatore avviene, in linguaggio C, attr
 Si osservi che il valore restituito è di tipo  `void*`:
 
 - questa scelta è stata fatta per rendere la funzione indipendente dal tipo di dato effettivamente allocato (la funzione riserva `n` bytes per il programma)
-- per poter utilizzare proficuamente quell'area di memoria sarà necessario convertire il `void*` nel tipo opportuno (ad esempio `int*` se destinato a interi, ecc.) 
+- per poter utilizzare proficuamente quell'area di memoria sarà necessario convertire il `void*` nel tipo opportuno (ad esempio `int*` se destinato a interi, ecc.)
 
 Come specificare a `malloc()` di quanti byte avrò effettivamente bisogno senza imparare a memoria la dimensione di tutti i tipi di dato?
 
@@ -387,6 +385,7 @@ La rappresentazione di un array avviene attraverso l'indirizzo $a$ del suo primo
 - **svantaggi**: dimensione fissata, a meno del trucco di sovradimensionare l'array (dimensione *fisica* vs *logica*)
 
 #### Array dinamici
+
 Alcuni linguaggi di programmazione (C++, Java, Python, C#) prevedono array che possono essere creati (e ridimensionati) dinamicamente, cerchiamo di farlo anche in C
 
 ```c
@@ -424,4 +423,212 @@ float* ridimensiona_vettore(float* a, int n, int d) {
 
 Il codice della `realloc` coincide, **concettualmente**, con (i) un'allocazione di un nuovo vettore, (ii) la copia dei valori precedentemente memorizzati nel vettore originale e (iii) la deallocazione del vettore originale.
 
-**Osservazione** $d$ può essere più grande o più piccolo di $n$ a seconda che vogliamo estendere o ridurre il vettore originario 
+**Osservazione** $d$ può essere più grande o più piccolo di $n$ a seconda che vogliamo estendere o ridurre il vettore originario
+
+L'operazione tipica di ridimensionamento su di un array è quella di aggiunta o di eliminazione di una posizione in fondo all'array
+
+- Aggiunta di un nuovo elemento:
+  - Alloca lo spazio per un nuovo array $b$ di dimensione $n+1$: $O(1)$
+  - Copia gli elementi di $a$ in $b$: $O(n)$
+  - Dealloca dalla memoria: $O(1)$
+  - Ridenomina $b$ come $a$: $O(1)$
+
+- Rimozione di un elemento esistente:
+  - Alloca lo spazio per un nuovo array $b$ di dimensione $n-1$: $O(1)$
+  - Copia gli elementi di $a$ in $b$: $O(n-1) = O(n)$
+  - Dealloca $a$ dalla memoria: $O(1)$
+  - Ridenomina $b$ come $a$: $O(1)$
+
+**Inefficiente**: richiede tempo totale $O(n)$
+
+#### Approccio "Ammortizzato"
+
+È possibile ottenere qualcosa di più efficiente quando le operazioni di inserimento/cancellazione degli elementi in fondo all'array sono più d'una?
+**Idea**: usiamo un sovradimensionamento come per gli array memorizzati sullo stack (lasciando degli elementi **fisici** liberi per ulteriori operazioni)
+
+- per ciascun array necessitiamo di mantenere due informazioni dimensionali:
+  - $n$, il numero di elementi significativi (**dimensione logica**)
+  - $d>n$, il numero di elementi allocati in memoria, compresi quelli non utilizzati (**dimensione fisica**)
+- in particolare decidiamo di effettuare operazioni di aumento o diminuzione raddoppiando o dimezzando la dimensione dell'array
+
+```c
+// estende il vettore di un elemento
+float* estendi_vettore(float a[], int* n, int* d) {
+   *n = *n + 1;
+   if (*n >= *d) { // raddoppio
+      a = ridimensiona_vettore(a, *d, 2 * (*d));
+      *d = 2 * (*d);
+   }
+   return a;
+}
+
+// riduce il vettore di un elemento
+float* riduci_vettore(float a[], int* n, int* d) {
+   *n = *n - 1;
+   if (*d > 1 && n <= d / 4) { // dimezzamento
+      a = ridimensiona_vettore(a, *d, *d / 2);
+      *d = *d / 2;
+   }
+   return a;
+}
+```
+
+Entrambe le operazioni anno complessità **virtualmente costante**
+
+La logica vista nelle operazioni di estensione e riduzione del vettore dinamico richiede che per rappresentarlo sia ncessario mantenere (e gestire) contemporaneamente 3 informazioni:
+
+- `a` il puntatore all'area di memoria dell'array (primo elemento)
+- `n` la dimensione logica dell'array
+- `d` la dimensione fisica dell'aray
+
+```c
+float* alloca_vettore_dinamico(int n, int* d) {
+   float* a = (float*)malloc(n * 2 * sizeof(float));
+   assert(a != NULL)
+   *d = n * 2;
+   return a;
+}
+```
+
+Ciò comporta che sia necessario, oltre che modificarle coerentemente, “portarsele dietro” in tutte le funzioni di manipolazione
+
+#### Implementazione Ingegnerizzata
+
+Rappresentiamo tutte le informazioni che descrivono la struttura dati attraverso un **record**, detto **descrittore**, che combina insieme tutte le informazioni necessarie
+
+```c
+typedef struct /* anonima */ {
+   // Puntatore allo spazio di memoria allocato per il vettore nello heap
+   float *dati;
+   // Dimensione logica del vettore: numero di elementi effettivi
+   int dimensione;
+   // Dimensione fisica del vettore: numero di elementi allocati nello heap
+   int capacita;
+} vettore_dinamico;
+```
+
+**Convenzione**: tutte le operazioni di manipolazione restituiscono il nuovo descrittore (esplicitamente o attraverso il passaggio per riferimento)
+
+**Nota**: l'istruzione `typedef <tipo> <nome_alias>` crea un alias per un determinato tipo di dato consentendo di omettere `struct <nome_struct>` quando dichiariamo le variabili
+
+##### Funzioni di Manipolazione (`array.h`)
+
+```c
+vettore_dinamico crea_vettore_dinamico(int n) {
+   vettore_dinamico v;
+   // non ha senso creare vettori di dimensione negativa
+   assert(n >= 0);
+   if (n > 0) {
+      // alloca lo spazio per i dati, memorizzandone il puntatore nel descrittore
+   v.dati = (float*)malloc(2 * n * sizeof(float));
+      // verifica che l'allocazione abbia avuto buon esito
+      assert(v.dati != NULL);
+   }
+   else
+   {
+      v.dati = NULL;
+   }
+   v.dimensione = n;
+   v.capacita = 2 * n;
+   return v;
+}
+```
+
+```c
+void ridimensiona_vettore_dinamico(vettore_dinamico *v, int n) {
+   // non ha senso creare vettori di dimensione negativa
+   assert(n >= 0);
+   if (n >= v->capacita) { // raddoppia
+      v->dati = (float*)realloc(v->dati, 2 * n * sizeof(float));
+      // verifica che la riallocazione abbia avuto buon esito
+      assert(v->dati != NULL);
+      v->capacita = 2 * n;
+   } else if (v->capacita > 1 && n <= v->capacita / 4) { // dimezza
+      // si osservi che v->capacita / 2 == n * 2 (perché n <= v->capacita / 4)
+      v->dati = (float*)realloc(v->dati, 2 * n * sizeof(float));
+      assert(v->dati != NULL);
+      v->capacita = 2 * n;
+   } else if (v->capacita == 0 && n > 0) { // passa da zero a una dimensione diversa da zero
+      v->dati = (float*)malloc(2 * n * sizeof(float));
+      assert(v->dati != NULL);
+      v->capacita = 2 * n;
+   }
+   v->dimensione = n;
+}
+```
+
+```c
+void elimina_vettore_dinamico(vettore_dinamico *v) {
+   // elimina dati
+   free(v->dati);
+   v->dimensione = 0;
+   v->capacita = 0;
+}
+
+void stampa_vettore_dinamico(vettore_dinamico v) {
+   int i;
+   for (i = 0; i < v.dimensione; i++)
+      printf("%g ", v.dati[i]);
+   if (v.dimensione > 0)
+      printf("\n");
+}
+```
+
+#### Considerazioni sugli Array Dinamici
+
+- **Vantaggi**
+  - Dimensione **veramente** dinamica
+  - Efficienza nelle operazioni di ridimensionamento di un'unità (quelle più tipiche) che richiedono tempo costante
+
+- **Limiti**
+  - Necessità di mantenere più informazioni in modo coerente (comune però anche agli array classici)
+  - Vincolo forte sul tipo di dato contenuto nell'array
+    - in principio dovremmo definire un nuovo descrittore e “ricopiare il codice” delle funzioni per adattare i dati ad un altro tipo diverso da `float`
+
+### LISTE
+
+Una lista è l'implementazione concreta di una struttura dati sequenza ad accesso sequenziale.  
+È rappresentata dall'indirizzo $a$ (del primo elemento della lista, detto **nodo**) e le altre posizioni sono sparse (a causa della gestione dinamica della memoria nello heap)
+
+Struttura:
+
+- $a$: indirizzo del primo elemento $a_0$
+- l'elemento $a_j$ contiene il dato e l'indirizzo dell'elemento $a_{j+1}$ (se esiste)
+
+```c
+typedef struct _nodo_lista {
+   // dato contenuto nel nodo corrente
+   float dato;
+   // successore del nodo corrente (NULL in caso non esista)
+   struct _nodo_lista *succ;
+} nodo_lista;
+```
+
+- il campo `dato` contiene il dato, mentre il campo `succ` indica l'elemento successivo
+- il valore `NULL` indica la fine della lista
+- la lista vuota è indicata da $a$ avente valore `NULL`
+
+Alcune osservazioni sulla definizione:
+
+- la `struct _nodo_lista` è **ricorsiva** (ossia utilizza, nella sua definizione, un puntatore a se stessa), pertanto non può essere definita in modo “anonimo”
+- Utilizzeremo la convenzione di premettere un carattere di sottilineatura `_` ai nomi che è necessario definire ma che non ci interessano
+
+#### Puntatori a `struct`
+
+Nel caso di una variabile che contenga un puntatore a `struct` la notazione per accedere ad un elemento della struct stessa può essere semplificato
+
+```c
+nodo_lista* p = ...; // supponiamo p sia un nodo della lista
+(*p).dato = 5;       // accesso tradizionale (dereferenzio p e accedo al campo dato)
+p->dato = 5;         // accesso semplificato (accedo al campo dato puntato da p)
+```
+
+#### Terminologia
+
+- Un **nodo** della lista, detto anche **elemento**, è una variabile del tipo `struct _nodo_lista` memorizzato sullo heap
+- Il primo elemento della lista ($a_0$) è detto **testa** della lista e rappresenta il punto di accesso alla lista stessa
+- L'ultimo elemento della lista ($a_{n-1}$) è detto **coda** della lista, talvolta può essere gestito esplicitamente anche se non è indispensabile
+- Dato un nodo $a_j$, il nodo $a_{j+1}$, raggiungibile attraverso il puntatore `succ` è detto **successore** del nodo $a_j$
+  - il successore **non esiste** nel caso $j = n-1$, in tal caso il puntatore è `NULL`
+- Il nodo $a_{j-1}$, se $j>0$, è detto **predecessore** del nodo
+  - **non esiste** predecessore della testa
