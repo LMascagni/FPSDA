@@ -89,7 +89,7 @@
       - [Rappresentazione Implicita in Array](#rappresentazione-implicita-in-array)
       - [Code di Priorità Implementate Tramite Heap Tree](#code-di-priorità-implementate-tramite-heap-tree)
       - [Complessità delle Operazioni](#complessità-delle-operazioni)
-    - [ALGORITMO DI ORDINAMENTO RAMITE HEAP TREE (_**HEAPSORT**_)](#algoritmo-di-ordinamento-ramite-heap-tree-heapsort)
+    - [ALGORITMO DI ORDINAMENTO TRAMITE HEAP TREE (HEAPSORT)](#algoritmo-di-ordinamento-tramite-heap-tree-heapsort)
       - [Heapsort: complessità](#heapsort-complessità)
   - [CAP 08 - IL PARADIGMA DIVIDE ET IMPERA](#cap-08---il-paradigma-divide-et-impera)
     - [TEOREMA FONDAMENTALE DELLE RICORRENZE (**MASTER THEOREM**)](#teorema-fondamentale-delle-ricorrenze-master-theorem)
@@ -1357,7 +1357,7 @@ Il fatto che l'altezza di uno heap tree sia logaritmica ci consente di effettuar
 
 L'esecuzione di $k$ operazioni `Empty`, `First`, `Enqueue` o `Dequeue` su un heap tree contenente inizialmente $m$ elementi richiede tempo $O(k \log n)$ dove $n=m+k$
 
-### ALGORITMO DI ORDINAMENTO RAMITE HEAP TREE (_**HEAPSORT**_)
+### ALGORITMO DI ORDINAMENTO TRAMITE HEAP TREE (HEAPSORT)
 
 Idea: uso lo stesso schema del **selection sort** ma sfruttando una struttura dati più efficiente per ottenere il massimo di un insieme di valori: usando un heap tree (ovvero una coda di priorità tramite heap tree)
 
