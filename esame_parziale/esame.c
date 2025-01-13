@@ -21,7 +21,6 @@ struct pasto
 
 int leggi_file(FILE *fp, struct pasto l_pasti[MAX_DATE]);
 //! ERR 3 - nel secondo file la data non ha come separatore '/' ma ha '-'
-//? proposta: aggiungere un nuovo argomento per il carattere separatore
 struct sdata estrai_data(char data[MAX_STR_LEN]);
 void conta_voti(FILE *fp, struct pasto l_pasti[MAX_DATE], int n_pasti);
 void incrementa_voto(struct pasto l_pasti[MAX_DATE], struct pasto pasto, int n_pasti);

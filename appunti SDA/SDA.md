@@ -1,5 +1,102 @@
 # APPUNTI DI STRUTTRE DATI E ALGORITMI
 
+- [APPUNTI DI STRUTTRE DATI E ALGORITMI](#appunti-di-struttre-dati-e-algoritmi)
+  - [CAP 01 - INTRODUZIONE](#cap-01---introduzione)
+    - [ALGORITMO](#algoritmo)
+      - [STRUTTURE DATI](#strutture-dati)
+      - [ALGORITMI E PROBLEMI](#algoritmi-e-problemi)
+      - [ALGORITMI E PROGRAMMI](#algoritmi-e-programmi)
+    - [PROBLEMI DECIDIBILI E INDECIDIBILI](#problemi-decidibili-e-indecidibili)
+      - [PROBLEMI DECIDIBILI](#problemi-decidibili)
+      - [PROBLEMI INDECIDIBILI](#problemi-indecidibili)
+      - [INDECIBILITA'](#indecibilita)
+  - [CAP 02 - ORGANIZZAZIONE DELLA MEMORIA, CHIAMATE DI FUNZIONI, RICORSIONE](#cap-02---organizzazione-della-memoria-chiamate-di-funzioni-ricorsione)
+    - [L'ORGANIZZAZIONE DELLA MEMORIA](#lorganizzazione-della-memoria)
+      - [RECORD DI ATTIVAZIONE](#record-di-attivazione)
+    - [LA RICORSONE](#la-ricorsone)
+      - [RICORSIONE: MECCANISMO COMPUTAZIONALE](#ricorsione-meccanismo-computazionale)
+      - [RICORSIONE E INDUZIONE](#ricorsione-e-induzione)
+      - [CONSIDERAZIONI FINALI SULLE FUNZIONI RICORSIVE](#considerazioni-finali-sulle-funzioni-ricorsive)
+        - [PRO E CONTRO DELLE FUNZIONI RICORSIVE](#pro-e-contro-delle-funzioni-ricorsive)
+        - [QUANDO UTILIZZARE LA RICORSIONE](#quando-utilizzare-la-ricorsione)
+  - [CAP 03 - TRATTABILITA' E COMPLESSITA' COMPUTAZIONALE](#cap-03---trattabilita-e-complessita-computazionale)
+    - [COMPLESSITA'](#complessita)
+      - [Decidibilità](#decidibilità)
+      - [Trattabilità](#trattabilità)
+      - [Sintesi](#sintesi)
+      - [Algoritmi Polinomiali ed Esponenziali](#algoritmi-polinomiali-ed-esponenziali)
+    - [CLASSI DI COMPLESSITA' DEI PROBLEMI](#classi-di-complessita-dei-problemi)
+    - [ANALISI DELLA COMPLESSITA'](#analisi-della-complessita)
+      - [Notazione asintotica e ordini di complessità](#notazione-asintotica-e-ordini-di-complessità)
+        - [Notazione Asintotica](#notazione-asintotica)
+        - [Principali Notazioni](#principali-notazioni)
+      - [Ordini di Complessità](#ordini-di-complessità)
+    - [Definizioni](#definizioni)
+    - [Proprietà della notazione asintotica](#proprietà-della-notazione-asintotica)
+    - [ANALISI STRUTTURALE](#analisi-strutturale)
+      - [Esempio di analisi strutturale](#esempio-di-analisi-strutturale)
+  - [da finire](#da-finire)
+  - [CAP 04 - SEQUENZE LINEARI E ALLOCAZIONE DINAMICA DELLA MEMORIA](#cap-04---sequenze-lineari-e-allocazione-dinamica-della-memoria)
+    - [SEQUENZE LINEARI](#sequenze-lineari)
+    - [ALLOCAZIONE DINAMICA DELLA MEMORIA IN C](#allocazione-dinamica-della-memoria-in-c)
+    - [ARRAY](#array)
+      - [Allocazione in memoria degli array](#allocazione-in-memoria-degli-array)
+      - [Array dinamici](#array-dinamici)
+      - [Approccio "Ammortizzato"](#approccio-ammortizzato)
+      - [Implementazione Ingegnerizzata](#implementazione-ingegnerizzata)
+        - [Funzioni di Manipolazione (`array.h`)](#funzioni-di-manipolazione-arrayh)
+      - [Considerazioni sugli Array Dinamici](#considerazioni-sugli-array-dinamici)
+    - [LISTE](#liste)
+      - [Puntatori a `struct`](#puntatori-a-struct)
+      - [Terminologia](#terminologia)
+      - [Operazioni di Accesso](#operazioni-di-accesso)
+      - [lunghezza](#lunghezza)
+      - [Inserimento in testa](#inserimento-in-testa)
+      - [Inserimento in coda](#inserimento-in-coda)
+      - [Descrittore](#descrittore)
+      - [Creazione dei nodi e del descrittore](#creazione-dei-nodi-e-del-descrittore)
+      - [Inserimento in testa e in coda con il descrittore](#inserimento-in-testa-e-in-coda-con-il-descrittore)
+      - [Eliminazione in testa con il descrittore](#eliminazione-in-testa-con-il-descrittore)
+      - [Eliminazione in coda con il descrittore](#eliminazione-in-coda-con-il-descrittore)
+      - [Proprietà e stampa](#proprietà-e-stampa)
+      - [Eliminazione della lista e dei nodi](#eliminazione-della-lista-e-dei-nodi)
+      - [Considerazioni sulle Liste](#considerazioni-sulle-liste)
+    - [LISTE DOPPIE](#liste-doppie)
+      - [Operazioni (`liste.h`)](#operazioni-listeh)
+      - [Complessità](#complessità)
+  - [CAP 05 - ALGORITMI DI ORDINAMENTO](#cap-05---algoritmi-di-ordinamento)
+    - [Il problema dell'ordinamento](#il-problema-dellordinamento)
+    - [SELECTION SORT](#selection-sort)
+    - [INSERTION SORT](#insertion-sort)
+    - [BUBBLE SORT](#bubble-sort)
+    - [RIEPILOGO DEGLI ALGORITMI](#riepilogo-degli-algoritmi)
+    - [LIMITE INFERIORE DI COMPLESSITA' DELL'ORDINAMENTO](#limite-inferiore-di-complessita-dellordinamento)
+  - [CAP 06 - STRUTTURE LINEARI: PILE E CODE](#cap-06---strutture-lineari-pile-e-code)
+    - [PILE](#pile)
+      - [PILE: IMPLEMENTAZIONE CON ARRAY](#pile-implementazione-con-array)
+      - [PILE: IMPLEMENTAZIONE CON LISTA](#pile-implementazione-con-lista)
+    - [CODE](#code)
+      - [CODE: IMPLEMENTAZIONE CON ARRAY](#code-implementazione-con-array)
+      - [CODE: IMPLEMENTAZIONE CON LISTE](#code-implementazione-con-liste)
+    - [CODE DI PRIORITA'](#code-di-priorita)
+      - [CODE DI PRIORITA': IMPLEMENTAZIONE CON LISTE](#code-di-priorita-implementazione-con-liste)
+  - [CAP 07 - ALBERI](#cap-07---alberi)
+    - [Nodi](#nodi)
+    - [Alberi generici, $k$-ari, binari](#alberi-generici-k-ari-binari)
+    - [Aberi Binari: Implementazione](#aberi-binari-implementazione)
+    - [Alberi completi e bilanciati](#alberi-completi-e-bilanciati)
+    - [HEAP TREE](#heap-tree)
+      - [Rappresentazione Implicita in Array](#rappresentazione-implicita-in-array)
+      - [Code di Priorità Implementate Tramite Heap Tree](#code-di-priorità-implementate-tramite-heap-tree)
+      - [Complessità delle Operazioni](#complessità-delle-operazioni)
+    - [ALGORITMO DI ORDINAMENTO RAMITE HEAP TREE (_**HEAPSORT**_)](#algoritmo-di-ordinamento-ramite-heap-tree-heapsort)
+      - [Heapsort: complessità](#heapsort-complessità)
+  - [CAP 08 - IL PARADIGMA DIVIDE ET IMPERA](#cap-08---il-paradigma-divide-et-impera)
+    - [TEOREMA FONDAMENTALE DELLE RICORRENZE (**MASTER THEOREM**)](#teorema-fondamentale-delle-ricorrenze-master-theorem)
+  - [CAP 09 - DIZIONARI E LE LORO IMPLEMENTAZIONI](#cap-09---dizionari-e-le-loro-implementazioni)
+    - [DIZIONARI: STRUTTURA DEL DATO](#dizionari-struttura-del-dato)
+    - [DIZIONARI: OPERAZIONI DI BASE](#dizionari-operazioni-di-base)
+
 ## CAP 01 - INTRODUZIONE
 
 ### ALGORITMO
@@ -92,7 +189,7 @@ Dove ogni blocco svolge una funzione differente e specifica:
 
 #### RECORD DI ATTIVAZIONE
 
-Ciascuna funzione crea un suo spazio specifico di emmorizzazione nello *stack* detto **record di attivazione**
+Ciascuna funzione crea un suo spazio specifico di emmorizzazione nello _stack_ detto **record di attivazione**
 
 Esso conteiene tutte le variabili locali della funzione, i suai parametri e i valori di ritorno
 
@@ -100,10 +197,10 @@ Esso conteiene tutte le variabili locali della funzione, i suai parametri e i va
 
 ### LA RICORSONE
 
-Una funzione è detta *ricorsiva* se nella sua definizione compare un riferiemtno (chiamata) a se stessa
+Una funzione è detta _ricorsiva_ se nella sua definizione compare un riferiemtno (chiamata) a se stessa
 
 - La funzione ricorsiva sa risolvere direttamente dei casi particolari del problema, detti casi base, in tal caso è in grado di restituire immediatamente il risultato
-- se invece le vengono passati dei dati che non costituiscono uno dei casi di base chiama se stessa passando dei dati *"ridotti"* o *"semplificati"*
+- se invece le vengono passati dei dati che non costituiscono uno dei casi di base chiama se stessa passando dei dati _"ridotti"_ o _"semplificati"_
 
 Ad ogni chiamata i dati si riducono così ad arrivare, ad un certo punto, ad uno dei casi base
 
@@ -114,7 +211,7 @@ Quando la funzione chiama se stessa, la sua esecuzione si sospende per eseguire 
 - L'esecuzione riprende quando la chiamata interna termina
 - La sequenza di chiamate ricorsive termina quando quella più annidata incontra uno dei casi base
 
-Ogni chiamata alloca sullo *stack* nuove istanze dei parametri e delle variabili locali all'interno del record di attivazione
+Ogni chiamata alloca sullo _stack_ nuove istanze dei parametri e delle variabili locali all'interno del record di attivazione
 
 #### RICORSIONE E INDUZIONE
 
@@ -398,7 +495,7 @@ Per l'elaborazione è neccessario anche poter rappresentare un puntatore non ini
 La rappresentazione di un array avviene attraverso l'indirizzo $a$ del suo primo elemento I suoi elementi sono memorizzati in posizioni consecutive, multiple della dimensione dei dati memorizzati
 
 - **vantaggi**: tempo di accesso costrante
-- **svantaggi**: dimensione fissata, a meno del trucco di sovradimensionare l'array (dimensione *fisica* vs *logica*)
+- **svantaggi**: dimensione fissata, a meno del trucco di sovradimensionare l'array (dimensione _fisica_ vs _logica_)
 
 #### Array dinamici
 
@@ -743,7 +840,7 @@ typedef struct {
 } lista;
 ```
 
-**Convenzione**: tutte le operazioni di manipolazione di liste *restituiscono* (direttamente o per
+**Convenzione**: tutte le operazioni di manipolazione di liste _restituiscono_ (direttamente o per
 passaggio per riferimento) il nuovo descrittore alla lista
 
 #### Creazione dei nodi e del descrittore
@@ -1160,10 +1257,10 @@ Politica di accesso **First In First Out (FIFO)**: il primo elemento inserito è
 
 #### CODE DI PRIORITA': IMPLEMENTAZIONE CON LISTE
 
-- Prima soluzione: *lista non ordinata*
+- Prima soluzione: _lista non ordinata_
   - La `Enqueue` richiede tempo costante, con i nuovi elementi inseriti a un estremo della lista
   - La `Dequeue` e la `First` richiedono tempo $O(n)$: perchè è necessario individuare l'elemento di priorità massima all'interno della lista
-- Seconda soluzione: *lista ordinata*
+- Seconda soluzione: _lista ordinata_
   - La `Dequeue` e la `First` richiedono tempo costante: l'elemento di massima priorità si trova in testa alla lista
   - La `Enqueue` richiede tempo $O(n)$: i nuovi elementi vanno inseriti alla posizione corretta rispetto all'ordinamento
 
@@ -1180,3 +1277,161 @@ Gli slaberi sono una struttura gerarchica, generalizzazione delle liste: più su
 - **Nodo interno**: nodo intermedio fra la radice e le foglie
 - **Profondità**: distanza (in numero di archi) fra qualunque nodo e la radice
 - **Altezza**: profodintà massima delle foglie
+
+### Nodi
+
+Contenitori di informazione, senza perdinta di generalità possono contenere dei dati di tipo `float`
+
+### Alberi generici, $k$-ari, binari
+
+Gli alberi sono classificati attraverso il numero di figli
+
+- nel caso generale il numero di figli è arbitrario
+- altrimenti se è limitato al valore k li chiamiamo alberi $k$-ari
+- se $k = 2$ si dicono _binari_ e i figli sono denominati `Sinistro(n)` e `Destro(n)`
+
+### Aberi Binari: Implementazione
+
+```c
+typedef struct _nodo {
+   float dato;
+   struct _nodo* sinistro;
+   struct _nodo* destro;
+   struct _nodo* padre; /* opzionale */
+}
+```
+
+Gli alberi binari sono interamnete descritti da due puntatori, al figlio sinistro e al figlio destro del nodo corrente (con valore `NULL` se essi non esistono)
+
+### Alberi completi e bilanciati
+
+Un albero (binario) è detto **completo** se ogni nodo ha esattamente due figli, non vuoti
+
+Un albero (binario) è detto **completamente bilanciato** se, oltre ad essere completo, tutte le foglie hanno la stessa profondità
+
+Un albero (binario) di altezza $h$ è detto **completo a sinistra** se i nodi di profondità minore di $h$ formano un albero completamente bilanciato e se i nodi di profondità $h$ sono tutti accumulati a sinistra
+
+L'altezza $h$ di un albero completamente bilanciato o completo a sinistra con $n$ nodi è $O( \log n)$
+
+### HEAP TREE
+
+Un **Heap tree** è un albero binario completo a sinistra che soddisfa la seguente proprietà, detta **heap property**:
+
+1. è un albero vuoto, oppure se `r` è la sua radice e `v_s`, `v_d` i suoi figli vale `r->dato` $\geq$ `v_s->dato` e `r->dato` $\geq$ `v_d->dato`
+2. la proprietà vale ricorsivamente per i sottoalberi radicati in `v_s` e `v_d`
+
+#### Rappresentazione Implicita in Array
+
+Un albero binario completo a sinistra con $n$ nodi può essere rappresentato in un array $t$ di dimensione $n$ con le seguenti convenzioni:
+
+1. `t[0]` è il nodo radice
+2. Dato un qualunque altro nodo $i$ dell'albero, `Sinistro(i) = 2 * i + 1` e `Destro(i) = 2 * i + 2`, `Padre(i) = (i - 1) / 2`
+
+#### Code di Priorità Implementate Tramite Heap Tree
+
+Il fatto che l'altezza di uno heap tree sia logaritmica ci consente di effettuare le operazioni `Enqueue` e `Dequeue` in tempo $O( \log n)$
+
+`Enqueue`:
+
+1. Inseriamo un nuovo `n` come foglis, mantenendo lo heap tree completo a sinistra
+2. Confrontiamo la priorità del nodo `n` con quella del padre e scambiamo i due nodi se la _heap property_ non vale ( ovvero se `n` ha priorità maggiore di quella del padre)
+3. Ripetiamo il punto 2 finchè non giungiamo ad un nodo per cui la _heap property_ è soddisfatta oppure quando `n` è diventato la radice
+
+- Tempo $O(h)=O(\log n)$, il numero di passi necessari per salire dalla foglia alla radice
+
+`Dequeue`:
+
+1. Estraiamo la radice ( l'element di priorità maggiore) e la scambiamo con la foglia più a destra `n` nell'ultimo livello ( per mantenere lo heap tree completo a sinistra)
+2. Confrontiamoo la priorità del nodo `n` con quella dei suoi figli e scamnbiamo `n` con il figlio di priorità massima se la _heap property_ non vale (ovvero se `n` ha priorità inferiore di quella dei figli)
+3. Ripetiamo il punto 2 finchè o la _heap property_ è soddisfatta oppure `n` è sceso fino ad una foglia
+
+- Tempo $O(h)=O(\log n)$, il numero di passi necessari a far scendere la nuova radice fino alla foglia
+
+#### Complessità delle Operazioni
+
+L'esecuzione di $k$ operazioni `Empty`, `First`, `Enqueue` o `Dequeue` su un heap tree contenente inizialmente $m$ elementi richiede tempo $O(k \log n)$ dove $n=m+k$
+
+### ALGORITMO DI ORDINAMENTO RAMITE HEAP TREE (_**HEAPSORT**_)
+
+Idea: uso lo stesso schema del **selection sort** ma sfruttando una struttura dati più efficiente per ottenere il massimo di un insieme di valori: usando un heap tree (ovvero una coda di priorità tramite heap tree)
+
+Schema concettuale:
+
+- Costruisco un heap tree con i valori del vettore aggiungendone gli elementi uno alla volta (dove il valore di priorità coincide con il dato dell'array. Tramite `Enqueue`)
+- finchè ci sono elementi estraggo il massimo dall'heap tree e lo inserisco nella sua posizione definitiva nell'array ordinato (tramite `Dequeue`)
+
+#### Heapsort: complessità
+
+- $n$ operazioni di `Enqueue` nell'albero, ciascuna delle quali ha costo $O(\log i) \subseteq O(\log n)$, dunque questa parte cosa $n \cdot O(\log n)=O(n \log n)$
+- $n$ operazioni di `Dequeue` nell'albero, ciascuna delle quali ha costo $O(\log i)$, pertanto anche questa parte costa $O(n \log n)$
+- La complessità complessiva dell'algoritmo è dunque $O(n \log n)$, ossia Heapsort è un algoritmo di ordinamento **ottimo**
+
+## CAP 08 - IL PARADIGMA DIVIDE ET IMPERA
+
+Questo paradigma è una metodologia generale per la soluzione di problemi che fa uso della ricorsione ed è strutturato in tre fasi_
+
+- **decomposizione**: identificazione di un numero di problemi dello stesso tipo, ciascuno definito su di un insieme di dati di dimensione inferiore a quello di partenza
+- **ricorsione**: soluzione ricorsiva di ciascun sottoproblema fino ad ottenere sottoproblemi di dimensioni tali da poter essere risolti direttamente
+- **ricombinazione**: combinazione delle soluzioni dei sottoproblemi per fornire una soluzione al problema di partenza
+
+### TEOREMA FONDAMENTALE DELLE RICORRENZE (**MASTER THEOREM**)
+
+Data la ricorrenza
+$$
+T(n)=
+\begin{cases}
+O(1) & \text{se } n \leq n_0 \\
+\alpha T(\frac{n}{\beta})+O(f(n)) & \text{se } n > n_0
+\end{cases}
+$$
+
+con $f(n)$ non decrescente, $\alpha \geq 1$ e $\beta > 1$
+
+Se esistono due costanti positive $\gamma > 0$ e $n'_0$ tali che $\alpha f(\frac{n}{\beta})= \gamma f(n)$ per ogni $n \geq n'_0$, allora la relazione di ricorrenza ha le seguenti soluzioni:
+
+1. $$T(n)=O(f(n)) \text{ se }\gamma < 1$$
+2. $$T(n)=O(f(n)\log_{\beta}n) \text{ se }\gamma = 1$$
+3. $$T(n)=O(n^{\log_{\beta}\alpha}) \text{ se }\gamma < 1$$
+
+## CAP 09 - DIZIONARI E LE LORO IMPLEMENTAZIONI
+
+I dizionari sono strutture dati che ci consentono di rappresentare **collezioni di elementi indicizzabili**, ovvero delle ricorrenze $\dag$ fra un dato detto **chiave** e il **valore** ad essa associato.  
+Possono rappresentare:
+
+- degli "array sparsi", con indici non necessariamente ontigui, ad esempio un array che contiene i soli elementi `a[3]`, `a[5]`, `a[8]` ma non gli altri
+- delle corrispondenze con indici di tipo diverso dagli interi, ad esempio qualcosa che corrisponde a `a["mario rossi"]`
+- degli "insiemi" qualora il solo campo chiave sia significativo
+
+$\dag$ in matematica, i termini corrispondenza o mappa sono sinonimi di funzione
+
+N.B.: Anche le sequenze lineari $a_0,a_1,...$ rappresentano delle corrispondenze, però:
+
+- le chiavi sono vincolate ad essere esattamente gli interi $0,1,...,n-1$
+- tutti gli elementi compresi fra $0$ e $n-1$ sono **obbligatoriamente presenti** nella corrispondenza
+
+### DIZIONARI: STRUTTURA DEL DATO
+
+Assumiamo che i dati siano composti da elementi con campo `chiave` e da un insieme di informazioni _satellite_ (che dipendono dall'applicazione)
+
+- siamo interessati all'operazione di **ricerca** del dato corrispondente alla **chiave** e al reperimento delle relative informazioni satellite
+- il tipo di dato della chiave, denotato di seguito con $U$, può essere arbitrario
+
+```c
+
+typedef struct {
+   int chiave;
+   float dato;
+} elemento_dizionario;
+
+```
+
+oppure
+
+```c
+typedef struct {
+   char* chiave;
+   struct dati dato;
+} elemento_dizionario;
+```
+
+### DIZIONARI: OPERAZIONI DI BASE
