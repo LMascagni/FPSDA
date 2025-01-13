@@ -96,6 +96,12 @@
   - [CAP 09 - DIZIONARI E LE LORO IMPLEMENTAZIONI](#cap-09---dizionari-e-le-loro-implementazioni)
     - [DIZIONARI: STRUTTURA DEL DATO](#dizionari-struttura-del-dato)
     - [DIZIONARI: OPERAZIONI DI BASE](#dizionari-operazioni-di-base)
+    - [DIZIONARI: IMPLEMENTAZIONE CON SEQUENZE LINEARI](#dizionari-implementazione-con-sequenze-lineari)
+    - [ALBERI BINARI DI RICERCA (ABR)](#alberi-binari-di-ricerca-abr)
+      - [Visite su Alberi Binari di Ricerca](#visite-su-alberi-binari-di-ricerca)
+      - [Ricerca negli Alberi Binari di Ricerca](#ricerca-negli-alberi-binari-di-ricerca)
+      - [Inserimento negli Alberi Binari di Ricerca](#inserimento-negli-alberi-binari-di-ricerca)
+      - [Cancellazione negli Alberi Binari di Ricerca](#cancellazione-negli-alberi-binari-di-ricerca)
 
 ## CAP 01 - INTRODUZIONE
 
@@ -308,7 +314,7 @@ Complessità o costo comutazionale $f(x)$ in tempo e spazio di un problema $Π$:
 
 ##### Notazione Asintotica
 
-La **notazione asintotica** descrive il comportamento di un algoritmo quando la dimensione dell'input (\(n\)) cresce verso l'infinito. Fornisce una stima della crescita del tempo di esecuzione o dello spazio richiesto.
+La **notazione asintotica** descrive il comportamento di un algoritmo quando la dimensione dell'input ($n$) cresce verso l'infinito. Fornisce una stima della crescita del tempo di esecuzione o dello spazio richiesto.
 
 ##### Principali Notazioni
 
@@ -334,7 +340,7 @@ La **notazione asintotica** descrive il comportamento di un algoritmo quando la 
      $$
      g(n) \in Θ(f(n)) \quad \text{se e solo se esistono costanti } c_1, c_2 > 0 \text{ e } n_0 > 0 \text{ tali che: } c_1 \cdot f(n) \leq g(n) \leq c_2 \cdot f(n) \quad \forall n \geq n_0
      $$
-   - **Esempio**: Se \(f(n) = 3n^2 + 5n + 2\), allora \(f(n) \in Θ(n^2)\).
+   - **Esempio**: Se $f(n) = 3n^2 + 5n + 2$, allora $f(n) \in Θ(n^2)$.
 
 ---
 
@@ -1435,3 +1441,118 @@ typedef struct {
 ```
 
 ### DIZIONARI: OPERAZIONI DI BASE
+
+Dato un dizionario `d`, sono definite le seguenti operazioni:
+
+- `ricerca(d, k)`: cerca e restituisce (un puntatore al)l'elemento `e` tale che `e->chiave`$=k \in U$ (restituisce `NULL` se non esiste)
+- `inserisci(d, k, dato)`: inserisce un nuovo elemento `e` in cui `e->chiave`$=k \in U$ e `e->dato = dato`, nell'ipotesi che $k\in U$ non sia presente nell'insieme di chiavi attualmente memorizzate (chievi distinte e **univoche**)
+  - se $k$ è già presente possiamo decidere che la funzione aggiorni il dato oppure non faccia nulla, segnalando l'errore
+- `cancell(d, k)`: elimina dal dizionario l'elemento con chiave $k$
+- `appartiene(d, k)`: restituisce `true` se un elemento con chiave $k$ compare nel dizionario (`ricerca(d, k) != NULL`)
+
+Se il tipo di dato delle chiavi possiede un ordine $\leq$ sono possibili anche le seguenti operazioni:
+
+- `predecssore(d, k)`: restituisce l'elemento la cui chiave è immediatamente precedente al valore $k$ nell'ordinamento (l'elemento di chiave $k$, se essa non esiste)
+- `successore(d, k)`: restituisce l'elemento la cui chiave è immediatamente successiva al valore $k$ nell'ordinamento (l'elemento di chiave $k$, se essa non esiste)
+- `intervallo(d, k1, k2)`: restituisce la sequenza di elementi le cui chiavi $k$ sono comprese in `k1`$\leq k \leq$`k2`
+- `rango(d, k)` restituisce il numero di elementi la cui chiave viene prima di $k$ nell'ordinamento
+
+### DIZIONARI: IMPLEMENTAZIONE CON SEQUENZE LINEARI
+
+Come già visto, un dizionario può essere implementato attraverso una sequenza lineare (liste, liste doppie o array dinamici) modificando opportunamente il tipo di dato memorizzato (usando `elemento_dizionario` invece di `float`)
+
+E' possibile, opzionalmente, mantenere gli elementi della sequenza **ordinati** per chiave, qualora fossero necessarie le operazioni aggiuntive
+
+- Gli elementi della sequenza possono essere mantenuti **ordinati per chiave**, con impatti differenti sulla complessità delle operazioni a seconda della struttura utilizzata:
+  1. Implementazione con Array Dinamici
+     - L'ordinamento migliora la complessità della **ricerca** da $O(n)$ a $O(\log n)$, grazie alla possibilità di utilizzare la **ricerca binaria**.
+     - L'inserimento diventa più costoso: per mantenere l'ordinamento, è necessario spostare gli elementi per fare spazio al nuovo elemento, con una complessità pari a $O(n)$.
+     - **Vantaggi:** La ricerca è più efficiente rispetto a un array non ordinato.
+  2. Implementazione con Liste (o Liste Doppie)
+     - Anche con gli elementi ordinati, la ricerca rimane $O(n)$, poiché una lista non consente l'accesso diretto agli elementi; ogni elemento deve essere visitato sequenzialmente.
+     - L'inserimento richiede sempre $O(n)$, dato che è necessario attraversare la lista per trovare la posizione corretta.
+     - **Svantaggi:** Non vi è alcun miglioramento nella ricerca rispetto alle liste non ordinate.
+
+- in ogni caso, però, semplifica l'implementazione delle operazioni `predecssore(d, k)`, `successore(d, k)` e `intervallo(d, k1, k2)`
+
+### ALBERI BINARI DI RICERCA (ABR)
+
+- È un albero vuoto, oppure se `r` è la sua radice vale:
+  - `r->sinistro->chiave` < `r->chiave`
+  - `r->chiave` < `r->destro->chiave`
+- La proprietà vale ricorsivamente per i sottoalberi radicati in `r->sinistro` e `r->destro`.
+
+**Assunzione**: Un solo nodo con una data chiave.
+
+Questo perchè:
+
+- **Evita ambiguità nella ricerca**: Se esistessero più nodi con la stessa chiave, non sarebbe chiaro quale nodo restituire per un'operazione di ricerca.
+- **Migliora l'efficienza**: L'unicità delle chiavi garantisce che ogni operazione (inserimento, eliminazione, ricerca) abbia una complessità ben definita, senza richiedere gestione aggiuntiva di duplicati.
+- **Modella un dizionario**: L'ABR è spesso utilizzato per implementare un dizionario, dove una chiave rappresenta univocamente un elemento.
+
+#### Visite su Alberi Binari di Ricerca
+
+Nel caso di un albero binario di ricerca, la visita `simmetrica` elabora gli elementi in ordine di chiave crescente
+
+```c
+int ordine; //uso una variabile globale
+
+void stampa_ordine(nodo_albero* r) {
+   printf("(%d, %d)", ordine, r->chiave);
+   ordine++;
+}
+
+void visita_simmetrica(nodo_albero* r, void(*elabora)(nodo_albero*)) {
+   if (r == NULL)
+      return;
+   visita_simmetrica(r->sinistro, elabora);
+   elabora(r);
+   visita_simmetrica(r->destro, elabora);
+}
+
+ordine = 1;
+visita_simetrica(albero.radice, stampa_ordine);
+```
+
+#### Ricerca negli Alberi Binari di Ricerca
+
+Algoritmo con complessità $O(h)$ con $h$ altezza dell'albero e dunque $O(\log n)$ se completo
+
+```c
+nodo_albero* ricerca(nodo_albero* r, int chiave) {
+   if (r == NULL)
+      return NULL;
+   if (chiave == r->chiave)
+      return r;
+   else if (chiave < r->chiave)
+      return ricerca(r->sinistro, chiave);
+   else
+      return ricerca(r->destro, chiave);
+}
+```
+
+#### Inserimento negli Alberi Binari di Ricerca
+
+Segue la struttura dell'albero e inserisce il nuovo nodo come foglia. L'assunzione è che vi sia un solo nodo con una data chiave, pertanto in caso sia già presente l'operazione aggiorna il dato
+
+Algoritmo con complessità $O(h)$ con $h$ altezza dell'albero
+
+```c
+nodo_albero* inserisci(nodo_albero* r, int chiave, float dato) {
+   if (r == NULL)
+      return crea_nodo_albero(chiave, dato);
+   else if (chiave < r->chiave)
+      r->sinistro = inserisci(r->sinistro, chiave, dato);
+   else if (chiave > r->chiave)
+      r->destro = inserisci(r->destro, chiave, dato);
+   else
+      r->dato =dato;
+   return r;
+}
+```
+
+N.B.: Per la struttura dell'operazione di inserimento, l'albero potrebbe risultare particolarmente sbilanciato (e dunque $h=O(n)$, annullando così il beneficio di avere un albero al posto di una sequenza)
+
+#### Cancellazione negli Alberi Binari di Ricerca
+
+Operazione immediata se operata su un nodo con un solo figlio
