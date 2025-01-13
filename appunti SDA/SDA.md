@@ -355,7 +355,7 @@ T(n)&=2c_1 \cdot n+c_2 \cdot n + 2c_3 \cdot n \cdot n + c_4 \cdot n \cdot n + c_
 \end{align}
 $$
 
-# da finire
+## da finire
 
 ## CAP 04 - SEQUENZE LINEARI E ALLOCAZIONE DINAMICA DELLA MEMORIA
 
@@ -1079,3 +1079,104 @@ Nel caso di un array già ordinato, il numero di operazioni svolte è $O(n)$, co
 |Selection sort|Cerco (seleziono) l'elemento minimo fra quelli rimasti da ordinare e lo scambio con l'elemento corrente | $O(n^2)$| $O(n^2)$|
 |Insertion sort|Cerco di inserire l'elemento corrente fra quelli precedenti, già ordinati | $O(n^2)$| $O(n)$|
 |Bubble sort|Effettuo più passaggi facendo affiorare gli elementi più grandi, finché non sono necessari più scambi | $O(n^2)$| $O(n)$|
+
+### LIMITE INFERIORE DI COMPLESSITA' DELL'ORDINAMENTO
+
+Queal è, nel caso peggiore, il numero minimo di operazioni richieste da un qualuque algoritmo di ordinamento basato sul confronto di elementi?
+
+- Il cuore degli algoritmi di ordinamento sono le operazioni di confronto, contiamo quindi tali operazioni
+- Consideriamo un qualunque algoritmo di ordinamento $A$ che usa confronti tra coppie di elementi
+
+in $t$ confronti (passi, operazioni), $A$ può discernere al più $2^t$ situazioni distinte:
+
+- sono infatti possibili due risposte per ogni confronto: $a_i \leq a_j$, oppure $a_i > a_j$
+
+Il numero possibile di ordinamenti di $n$ elementi è $n!$ (tutte le loro permutazioni)  
+Poichè $A$ deve discernere tra $n!$ possibili situazioni, deve valere $2^t \geq n!$, pertanto, risolvendo in $t$:
+
+$$
+t=\log 2^t \geq log n! = \log O(n^n)= O(\log n^n)=O(n \log n)
+$$
+
+Dunque $t= \Omega (n \log n)$ è un limite inferiore alla complessità di qualunque algoritmo di ordinamento basato sui confronti
+
+## CAP 06 - STRUTTURE LINEARI: PILE E CODE
+
+### PILE
+
+Le pile sono collezioni di elementi in cui le operazioni disponibili, come l'estrazione di un elemento, sono ristrette unicamente a quello più recentemente inserito
+
+- Politica di accesso **Last In First Out (LIFO)**: l'ultimo elemento inserito è il primo ad essere estratto
+- Operazioni:
+  - `Push(p, d)`: inserisce un nuovo elemento in cima alla pila
+  - `Pop(p)`: estrae l'elemento in cima alla pila (opzionalmente restituendo l'informazione in esso contenuta)
+  - `Top(p)`: restituisce l'informazione contenuta nell'elemento in cima alla pila
+  - `Empty(p)`: verifica se la pila è vuota
+
+#### PILE: IMPLEMENTAZIONE CON ARRAY
+
+- Elementi della pila memorizzati in un array di dimensione iniziale predefinita
+- Array ridimensionato per garantire che la dimensione sia proporzionale al numero di elementi effettivamente nella pila
+- Elementi memorizzati in sequenza nell'array a partire dalla locazione iniziale, inserendoli man mano nella prima locazione disponibile
+- La cima della pila corrisponde all'ultimo elemento della sequenza
+
+#### PILE: IMPLEMENTAZIONE CON LISTA
+
+- Elementi della pila memorizzati in una lista ordinata per istante di inserimento decrescente
+- La cima della pila corrisponde all'inizio della lista
+- Le operazioni agiscono tutte sull'elemento iniziale della lista
+
+---
+
+### CODE
+
+Collezioni di elementi in cui le operazioni disponibili, come l'estrazione di un elemento, sono ristrette unicamente a quello inserito meno recentemente
+
+Politica di accesso **First In First Out (FIFO)**: il primo elemento inserito è il primo ad essere estratto
+
+- Operazioni:
+  - `Enqueue(q, d)`: inserisce un nuovo elemento in fondo alla coda
+  - `Dequeue(q)`: estrae l'elemento in testa alla coda (opzionalmente restituendo l'informazione in esso contenuta)
+  - `First(q)`: restituisce l'informazione contenuta nell'elemento in testa alla coda senza estrarlo
+  - `Empty(q)`: verifica se la coda è vuota o meno
+
+#### CODE: IMPLEMENTAZIONE CON ARRAY
+
+- Elementi della coda memorizzati in un array di dimensione iniziale predefinita
+- Array ridimensionato per garantire che la dimensione sia proporzionale al numero di elementi effettivamente nella coda
+- Elementi memorizzati in sequenza nell'array a partire dalla locazione iniziale, inserendoli man mano nella prima locazione disponibile
+
+#### CODE: IMPLEMENTAZIONE CON LISTE
+
+- Nodi concatenati e ordinati in modo crescente secondo l'istante di inserimento
+- Il primo nodo della sequenza corrisponde alla "testa" della coda ed è il nodo da estrarre nel caso di un `Dequeue`
+- L'ultimo nodo corrisponde al "fondo" della coda ed è il nodo a cui concatenare un nuovo nodo, inserito mediante `Enqueue`
+
+### CODE DI PRIORITA'
+
+- Collezioni di elementi i cui a ogni elemento è associato un valore (priorità) appartenente a un istante totalmente ordinato
+- Estensione della coda: le operazioni sono le stesse della coda: `Empty`, `Enqueue`, `First` e `Dequeue`
+- `First` restituisce l'elemento di priorità massima (o minima)
+
+#### CODE DI PRIORITA': IMPLEMENTAZIONE CON LISTE
+
+- Prima soluzione: *lista non ordinata*
+  - La `Enqueue` richiede tempo costante, con i nuovi elementi inseriti a un estremo della lista
+  - La `Dequeue` e la `First` richiedono tempo $O(n)$: perchè è necessario individuare l'elemento di priorità massima all'interno della lista
+- Seconda soluzione: *lista ordinata*
+  - La `Dequeue` e la `First` richiedono tempo costante: l'elemento di massima priorità si trova in testa alla lista
+  - La `Enqueue` richiede tempo $O(n)$: i nuovi elementi vanno inseriti alla posizione corretta rispetto all'ordinamento
+
+Il costo delle operazioni è sbilanciato: vi è la necessità di un implementazione che lo renda più simile
+
+## CAP 07 - ALBERI
+
+Gli slaberi sono una struttura gerarchica, generalizzazione delle liste: più successori per ciascun nodo, detti figli.
+
+- **Nodo**: elemento dell'albero
+- **Arco**: collegamento tra due nodi
+- **Radice**: nodo che si trova al livello più elevato della gerarchia
+- **Foglia**: nodo che non ha figli
+- **Nodo interno**: nodo intermedio fra la radice e le foglie
+- **Profondità**: distanza (in numero di archi) fra qualunque nodo e la radice
+- **Altezza**: profodintà massima delle foglie
