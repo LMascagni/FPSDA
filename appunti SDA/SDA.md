@@ -130,6 +130,15 @@
     - [PROBLEMI SU GRAFI](#problemi-su-grafi)
       - [VISTA IN AMPIEZZA](#vista-in-ampiezza)
       - [VISITA IN PROFONDITA'](#visita-in-profondita)
+    - [GRAFI DIRETTI ACICLICI (DAG)](#grafi-diretti-aciclici-dag)
+      - [Grafi Diretti Aciclici: Implementazione](#grafi-diretti-aciclici-implementazione)
+      - [Ordinamento Topologico: Esempio](#ordinamento-topologico-esempio)
+    - [PROBLEMI DI CAMMINO MINIMO](#problemi-di-cammino-minimo)
+      - [Cammini (pesati) minimi](#cammini-pesati-minimi)
+        - [Rappresentazione dei cammini](#rappresentazione-dei-cammini)
+      - [Algoritmo di Dijkstra](#algoritmo-di-dijkstra)
+        - [Complessità dell'algoritmo di Dijkstra](#complessità-dellalgoritmo-di-dijkstra)
+    - [MINIMO ALBERO RICOPRENTE](#minimo-albero-ricoprente)
 
 ## CAP 01 - INTRODUZIONE
 
@@ -2081,6 +2090,7 @@ void visita_in_ampiezza(grafo g, int s, void elabora(grafo, int)) {
    elimina_coda_int (&q);
    free(raggiunto);
 ```
+
 Vengono visitati (una sola volta) tutti i nodi e gli archi raggiungibili dalla sorgente
 
 Nella figura è indicato un possibile ordine di visita di ciascun nodo a partire da $S=2$
@@ -2107,6 +2117,214 @@ void cisita_in_profondita(grafo g, int s, void elabora(grafo, int)) {
    coda_int q = crea_pila_int();
    //inizializzazione strutture ausiliarie
    for (u = 0; u < g.n; u++)
-   
+      raggiunto[u] = falseM
+   //partiamo dal nodo sorgente s
+   enqueue_int(&q, s);
+   raggiunto[s] = true;
+
+   //finchè ci sono nodi nella coda
+   while (!empty_int(q)) {
+      nodo_adiacenza* e;
+      //estrai il nodo
+      u = top_int(q);
+      pop_int(&q);
+      // applica la funzione di elaborazione al nodo corrente
+      elabora(g, u);
+      //enumera il vicinato (non raggiunto)
+      PEROGNI_VICINO(g, u, e, v) {
+         if(!raggiunto[v]) {
+            push_int(&q, v);
+            raggiunto[v] = true;
+         }
+      }
+   }
 }
 ```
+
+Nella figura è indicato un possibile ordine di visita di ciascun nodo a partire da $s = 2$
+
+Inizialmente viene seguito il cammino più profondo fino al nodo di indice 4, quindi il primo nodo ancora rimasto sulla pila è il nodo di indice 5 (inserito durante l'esplorazione del vicinato di 8) e vengono seguiti i cammini più profondi a partire da tale nodo
+
+Analogamente al caso precedente: $O(n+m)$
+
+L'algoritmo per la visita in profondità può essere definito in maniera ricorsiva
+
+```c
+void _applica_in_profondita(grafo g, int u, void elabora(grafo, int), bool raggiunto[]) {
+   nodo_adiacenza* e;
+   int v;
+   f(g, v);
+   raggiunto[u] = true;
+   PEROGNI_VICINO(g, u, e, v) {
+      if(!raggiunto[v])
+         _applica_in_profondita_ricorsiva(g, v, elabora, raggiunto);
+   }
+}
+
+void applica_in_profondità_ricorsiva(grafo g, int s, void elabora(grafo, int)) {
+   bool* raggiunto = (bool*)malloc(g.n * sizeof(bool));
+   int uM
+   for (u = 0; u < g.n; u++)
+      raggiunto[u] = false;
+   _applica_in_profondita_ricorsiva(g, s, elabora, raggiunto);
+   free(raggiunto);
+}
+```
+
+---
+
+### GRAFI DIRETTI ACICLICI (DAG)
+
+Un grafo diretto aciclico può rappresentare la relazione precedenza tra una serie di attività
+
+La visita in profondità opportunamente adattata permette di definire un ordinamento dei nodi del grafo (nel caso sia diretto e aciclico)
+
+Restituiremo l'ordine delle attività memorizzato in una pila
+
+![DAG](img/DAG.png)
+
+#### Grafi Diretti Aciclici: Implementazione
+
+```c
+pila_int ordinamento_topologico(grafo g) {
+   bool* raggiunto = (bool*)malloc(g.n * sizeof(bool));
+   pila_int ordine = crea_pila_int();
+
+   int s;
+   for (s=0; s < g.n; s++)
+      raggiunto[s] = false;
+
+   for (s=0; s < g.n; s++)
+      if (!raggiunto[s])
+         _visita_in_profondita_ricorsiva_ordina(g, s, raggiunto, &ordine);
+
+   free(raggiunto);
+   return ordine;
+}
+
+void _visita_in_profondita_ricorsiva_ordine(grafo g, int u, bool raggiunto[], pila_int* p_ordine) {
+   nodo_adiacenze* e;
+   int v;
+   raggiunto[u] = true;
+   PEROGNI_VICINO(g, u, e, v) {
+      if (!raggiunto[v])
+         _visita_in_profondita_ricorsiva_ordine(g, v, raggiunto, p_ordine);
+   }
+   push_int(p_ordine, u);
+}
+```
+
+#### Ordinamento Topologico: Esempio
+
+I punti da cui parte/riparte la visita in profondità sono indicati da $start_i$
+
+È possibile dimostrare che partendo da nodi senza dipendenze si minimizza l'eventuale numero di restart
+
+![ordinamento topologico](img/ord_top.png)
+
+Lo stack rappresenta l'ordine delle attività determinato (ne possono esistere diversi ma equivalenti)
+
+---
+
+### PROBLEMI DI CAMMINO MINIMO
+
+#### Cammini (pesati) minimi
+
+Consideriamo ora il problema di esplorare un grafo pesato per determinare il percorso di distanza più breve fra due nodi.
+
+Dato un grafo pesato (senza perdita di generalità orientato) $G = (V, E, w)$, determinare i
+cammini di peso minimo, in ordine di generalità crescente:
+
+1. fra due nodi $u$ e $v$
+2. fra un nodo "sorgente" $s$ e tutti gli altri nodi
+3. fra uqalunque coppia di nodi
+
+Il caso 1. può essere risolto tramite il caso 2., infatti è sufficiente scegliere $s=u$ e poi prendere il solo cammino che arriva a $v$. Anche il caso 3,ì. può essere risolto con il caso 2. con un ciclo su tutti i nodi sorgente
+
+##### Rappresentazione dei cammini
+
+Rappresentiamo i cammini a partire da una sorgente $u$ come vettori i cui elementi mantengono la distanza (pesata) da $u$ e il vertice precedente. In altre parole un cammino da $u$ a $v$ è rappresentato con i nodi ottenuti seguendo a ritroso il campo `pred` dell'elemento `cammini [v]` fino a raggiungere $u$ . La sorgente è contraddistinta da avere
+se stessa come predecessore.
+
+```c
+typedef struct {
+   float distanza;
+   int pred;
+} cammini;
+```
+
+![rappresentazione cammini](img/rappr_cam.png)
+
+#### Algoritmo di Dijkstra
+
+L'algoritmo di Dijkstra (Edsger Wybe Dijkstra, 1930-2002) è applicabile solo su grafi con pesi non negativi. Risolve il problema di determinare tutti i cammini minimi da una data sorgente attraverso una strategia greedy con un euristica dinamica $h : A \times S \rightarrow \mathbb{R}^{\geq 0}$
+
+```c
+cammini* dijkstra(grafo g, int s) {
+   int u, v;
+   cammini* c = (cammini*)malloc(g.n * sizeof(cammini));
+   coda_priorita_int q = crea_coda_priorita_int();
+   for (u = 0; u < g.n; u++) {
+      c[u].distanza = INT_MAX;
+      c[u].pred = -1
+   }
+   c[s].pred = s;
+   c[s].distanza = 0.0;
+   for (u = 0; u < g.n; u++)
+      enqueue_priorita_int(&q, u, -cammini[u].distanza);
+   while (!empty_priorita_int(q)) {
+      nodo_adiacenza* e;
+      elemento_priorita ep = first_priorita_int(q);
+      dequeue_priorita_int(&q);
+      u = ep.dato;
+      PEROGNI_VICINO(g, u, e, v){
+         if (c[v].distanza > c[u].distanza + e->peso) {
+            c[v].distanza = c[u].distanza + e->peso;
+            c[v].prev = u;
+            aggiorna_priorita_int(&q, v, -c[v].distanza);
+         }
+      }
+   }
+   return c;
+}
+```
+
+Le strutture dati vengono inizializzate con distanze infinite e nessun predecessore tranne che per  la sorgente
+
+A ciascun passo, le stime di distanza minima (e di conseguenza il predecessore) vengono aggiornate considerando i percorsi che passano per il nodo estratto dalla coda di priorità: euristica greedy dinamica
+
+In alcuni casi le stime possono essere riviste perchè esiste un percorso più breve passando per un altro nodo
+
+L'algoritmo termina quando la coda di priorita è vuota e il risultato è nella tabella dei cammini
+
+##### Complessità dell'algoritmo di Dijkstra
+
+II costo computazionale dell'algoritmo è dato principalmente da:
+
+- tempo per la costruzione della coda di priorità $t_c$
+- tempo di estrazione del minimo dalla coda di priorità $t_e$ (ripetuto $n$ volte)
+- tempo di aggiornamento della priorità $t_d$ (ripetuto $m$ volte)
+Quindi in totale:
+
+$$
+O(t_c+nt_e+mt_d)
+$$
+
+Due scenari implementativi:
+
+- Implementazione della coda di priorità mediante heap: $O((n + m) \log n)$
+- Implementazione della coda di priorità mediante lista non ordinata: $O(n^2 + mn)$
+
+### MINIMO ALBERO RICOPRENTE
+
+Il problema del minimo albero ricoprente (Minimum Spanning Tree) trova applicazioni multiple, ad esempio nella progettazione di reti di telecomunicazioni oppure nell'analisi dei dati.
+
+Dato un grafo indiretto pesato $G =(V, E, w)$ si vuole trovare un sottografo $T= (V, E')$
+con $E' \subseteq E$ che sia:
+
+1. un albero, ovvero sia un sottografo connesso, aciclico e abbia esattamente $|E'| = n - 1$ archi
+2. tra tutti i possibili alberi costruiti quello i cui archi abbiano peso minimo, ossia
+
+$$
+T= \argmin_{T= (V, E')_{\text{è un albero}}} \sum_{e \in E'}w(e)
+$$
