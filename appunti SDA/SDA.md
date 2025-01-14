@@ -126,6 +126,10 @@
         - [Rappresentazione con Liste di Adiacenza: Operazioni e Costo Computazionale](#rappresentazione-con-liste-di-adiacenza-operazioni-e-costo-computazionale)
       - [Rappresenzatione con Matrici di Adiacenza](#rappresenzatione-con-matrici-di-adiacenza)
         - [Rappresenzatione con Matrici di Adiacenza: Operazioni e Costo Computazionale](#rappresenzatione-con-matrici-di-adiacenza-operazioni-e-costo-computazionale)
+      - [Comparazione delle Operazioni su Grafi nelle Diverse Implementazioni](#comparazione-delle-operazioni-su-grafi-nelle-diverse-implementazioni)
+    - [PROBLEMI SU GRAFI](#problemi-su-grafi)
+      - [VISTA IN AMPIEZZA](#vista-in-ampiezza)
+      - [VISITA IN PROFONDITA'](#visita-in-profondita)
 
 ## CAP 01 - INTRODUZIONE
 
@@ -1066,16 +1070,16 @@ void aggiungi_in_testa_d(lista_doppia *l, float dato) {
 
 #### Complessità
 
-| Operazione | Lista Semplice  (senza puntatori aggiuntivi) | Lista Semplice  (con puntatori aggiuntivi) | Lista Doppia |
-|:-----------|:--------------------------------------------:|:------------------------------------------:|:------------:|
-|Creazione| $O(1)$ | $O(1)$ | $O(1)$ |
-|Inserimento in testa| $O(1)$ | $O(1)$ | $O(1)$ |
-|Inserimento in coda| $O(n)$ | $O(1)$ | $O(1)$ |
-|Ricerca di un elemento| $O(n)$ | $O(n)$ | $O(n)$ |
-|Inserimento in un punto arbitrario| $O(n)$ | $O(1)$ | $O(1)$ |
-|Eliminazione in testa| $O(1)$ | $O(1)$ | $O(1)$ |
-|Eliminazione in coda| $O(n)$ | $O(n)$ | $O(1)$ |
-|Distruzione| $O(n)$ | $O(n)$ | $O(n)$ |
+| Operazione                         | Lista Semplice  (senza puntatori aggiuntivi) | Lista Semplice  (con puntatori aggiuntivi) | Lista Doppia |
+| :--------------------------------- | :------------------------------------------: | :----------------------------------------: | :----------: |
+| Creazione                          |                    $O(1)$                    |                   $O(1)$                   |    $O(1)$    |
+| Inserimento in testa               |                    $O(1)$                    |                   $O(1)$                   |    $O(1)$    |
+| Inserimento in coda                |                    $O(n)$                    |                   $O(1)$                   |    $O(1)$    |
+| Ricerca di un elemento             |                    $O(n)$                    |                   $O(n)$                   |    $O(n)$    |
+| Inserimento in un punto arbitrario |                    $O(n)$                    |                   $O(1)$                   |    $O(1)$    |
+| Eliminazione in testa              |                    $O(1)$                    |                   $O(1)$                   |    $O(1)$    |
+| Eliminazione in coda               |                    $O(n)$                    |                   $O(n)$                   |    $O(1)$    |
+| Distruzione                        |                    $O(n)$                    |                   $O(n)$                   |    $O(n)$    |
 
 ## CAP 05 - ALGORITMI DI ORDINAMENTO
 
@@ -1201,11 +1205,11 @@ Nel caso di un array già ordinato, il numero di operazioni svolte è $O(n)$, co
 
 ### RIEPILOGO DEGLI ALGORITMI
 
-|Algoritmo|Idea|Caso Pessimo|Caso Ottimo|
-|-|-|-|-|
-|Selection sort|Cerco (seleziono) l'elemento minimo fra quelli rimasti da ordinare e lo scambio con l'elemento corrente | $O(n^2)$| $O(n^2)$|
-|Insertion sort|Cerco di inserire l'elemento corrente fra quelli precedenti, già ordinati | $O(n^2)$| $O(n)$|
-|Bubble sort|Effettuo più passaggi facendo affiorare gli elementi più grandi, finché non sono necessari più scambi | $O(n^2)$| $O(n)$|
+| Algoritmo      | Idea                                                                                                    | Caso Pessimo | Caso Ottimo |
+| -------------- | ------------------------------------------------------------------------------------------------------- | ------------ | ----------- |
+| Selection sort | Cerco (seleziono) l'elemento minimo fra quelli rimasti da ordinare e lo scambio con l'elemento corrente | $O(n^2)$     | $O(n^2)$    |
+| Insertion sort | Cerco di inserire l'elemento corrente fra quelli precedenti, già ordinati                               | $O(n^2)$     | $O(n)$      |
+| Bubble sort    | Effettuo più passaggi facendo affiorare gli elementi più grandi, finché non sono necessari più scambi   | $O(n^2)$     | $O(n)$      |
 
 ### LIMITE INFERIORE DI COMPLESSITA' DELL'ORDINAMENTO
 
@@ -2004,4 +2008,105 @@ esiste_arco(g, u, v) {
 }
 ```
 
-- 
+- Enumerazione vicinato (Costo $O(n)$):
+
+```c
+for (z = 0; z < n; z++) {
+   if (esiste_arco(g, u, z))
+      /* Elabora vicino */
+}
+```
+
+- `elimina_grafo(&g)`: deve semplicemente deallocare la matrice, $O(1)$
+
+#### Comparazione delle Operazioni su Grafi nelle Diverse Implementazioni
+
+| Operazione su un grafo con $n$ nodi, $m$ archi | Liste di adiacenza                           | Matrici di adiacenza                          |
+| ---------------------------------------------- | -------------------------------------------- | --------------------------------------------- |
+| Creazione                                      | $O(n)$ creazione lista e impostazione a NULL | $O(n^2)$ creazione matrice e impostazione a 0 |
+| inserimento di $m$ archi                       | $O(m)$                                       | $O(m)$                                        |
+| Enumerazione vicinato nodo $u$                 | $O(\|adj(u)\|)$                              | $O(n)$                                        |
+| Eliminazione                                   | $O(n+m) eliminazione liste                   | $O(1)$ deallocazione matrice                  |
+
+---
+
+### PROBLEMI SU GRAFI
+
+Analogamente agli alberi possiamo definire dei concetti di visita. In questo caso non ha senso parlare di visita simmetrica, anticipata e posticipata ma piuttosto si parla di visita in ampiezza e in profondità.
+
+- inoltre è necessario definire un nodo di riferimento per la partenza (non essendoci la radice)
+
+#### VISTA IN AMPIEZZA
+
+A partire da un nodo $u$, si visitano tutti i nodi a distanza via via crescente, ovvero prima quelli a distanza 1, poi quelli a distanza 2, e così via
+
+- evita di esaminare ripetutamente gli stessi cammini
+
+Nell'implementazione proposta si utilizza una coda e un vettore di booleani `raggiunto` che indica se il nodo è già stato visitato (ed elaborato) in precedenza
+
+- l'uso di una coda per i nodi fa sì che questi vengano elaborati secondo una strategia FIFO e dunque per primi quelli più vicini al nodo dal quale è stato originato il cammino
+
+```c
+void visita_in_ampiezza(grafo g, int s, void elabora(grafo, int)) {
+   bool* raggiunto = (bool*)malloc(g.n * sizeof(bool));
+   int u, v;
+   // la coda è adattata per contenere degli interi
+   coda_int q = crea_coda_int();
+   
+   // inizializzazione strutture ausiliarie
+   for (u = 0; u < g.n; u++) {
+      raggiunto [u] = false;
+   }
+   
+   // partiamo dal nodo sorgente s
+   enqueue_int(&q, s) ;
+   raggiunto[s] = true;
+   // finché ci sono nodi nella coda
+   while (!empty_int(q)) {
+      nodo_adiacenza* e;
+      // estrai il nodo
+      u = first_int(q);
+      dequeue_int(&q) ;
+      // applica la funzione di elaborazione al nodo corrente
+      elabora(g, u) ;
+      // enumera il vicinato (non raggiunto)
+      PEROGNI_VICINO(g, u, e, v){
+         if (!raggiunto[vl) {
+            enqueue_int(&q, v) ;
+            raggiunto [v] = true;
+         }
+      }
+   }
+   // eliminazione strutture ausiliarie
+   elimina_coda_int (&q);
+   free(raggiunto);
+```
+Vengono visitati (una sola volta) tutti i nodi e gli archi raggiungibili dalla sorgente
+
+Nella figura è indicato un possibile ordine di visita di ciascun nodo a partire da $S=2$
+
+- l'ordine effettivo dipende da come viene enumerato il vicinato ma tutti i nodi a distanza (minima) k dalla radice vengono visitati uno di seguito all'altro
+
+![visita in ampiezza](img/visita_ampiezza.png)
+
+Tempo di esecuzione: $O(n+m)$
+
+#### VISITA IN PROFONDITA'
+
+A partire da un nodo $u$ si visitano tutti i nodi lungo un cammino di distanza via via crescente. Una volta esaurito tale cammino si prosegue con il cammino successivo e così via
+
+L'algoritmo è identico al precedente, con la sola differenza di usare una pila invece di una coda
+
+L'uso di una pila per i nodi fa sì che questi vengano elaborati secondo una strategia LIFO e dunque per primi quelli più lontani (profondi) dal nodo dal quale è stato originato il cammino (perché scoperti più tardi)
+
+```c
+void cisita_in_profondita(grafo g, int s, void elabora(grafo, int)) {
+   bool* raggiunto = (bool*)malloc(g.n * sizeof(bool));
+   int u, v;
+   //la pila è adattata per contenere degli interi
+   coda_int q = crea_pila_int();
+   //inizializzazione strutture ausiliarie
+   for (u = 0; u < g.n; u++)
+   
+}
+```
