@@ -124,6 +124,8 @@
     - [Rappresentazione Concreta dei Grafi](#rappresentazione-concreta-dei-grafi)
       - [Rappresentazione con Liste di Adiacenza](#rappresentazione-con-liste-di-adiacenza)
         - [Rappresentazione con Liste di Adiacenza: Operazioni e Costo Computazionale](#rappresentazione-con-liste-di-adiacenza-operazioni-e-costo-computazionale)
+      - [Rappresenzatione con Matrici di Adiacenza](#rappresenzatione-con-matrici-di-adiacenza)
+        - [Rappresenzatione con Matrici di Adiacenza: Operazioni e Costo Computazionale](#rappresenzatione-con-matrici-di-adiacenza-operazioni-e-costo-computazionale)
 
 ## CAP 01 - INTRODUZIONE
 
@@ -1979,4 +1981,27 @@ while (z != NULL) {
 Costo computazionale: $O(|adj(u)|)=O(n)$
 
 - `elimina_grafo (&g)`: $O(m)$, deve rimuovere tutti gli elementi delle liste di adiacenza (pari agli archi $m$) e deallocare il vettore di liste $0(1)$
+
+#### Rappresenzatione con Matrici di Adiacenza
+
+Matrice $g$ di dimensione $n \times n$ in cui un valore diverso da zero per l'elemento $g[u][v]$ indica la presenza dell'arco $(u, v)$ e il valore zero indica la sua assenza.
+
+Il valore memorizzato può essere semplicemente un 1 nel caso di grafi non pesati o il peso
+dell'arco $w(u, v)$ nel caso di grafi pesati.
+
+La complessità spaziale della memorizzazione del grafo attraverso la matrice di adiacenza è $O(n^2)$
+
+##### Rappresenzatione con Matrici di Adiacenza: Operazioni e Costo Computazionale
+
+- `g = crea_g rafo(n)` : creazione della matrice e impostazione a O di tutti gli elementi: $O(n^2)$
+- `aggiungi_arco(&g, u, v, w)` : impostazione a $w$ dell'elemento $(u, v)$ della matrice: $O(1)$
+- `rimuovi_arco(&g, u, v)` : impostazione a O dell'elemento $(u, v)$ della matrice: $O(1)$
+- Esistenza di un arco (Costo: $O(1)$):
+
+```c
+esiste_arco(g, u, v) {
+   return g[u][v] != 0;
+}
+```
+
 - 
