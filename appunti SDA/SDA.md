@@ -1979,3 +1979,4 @@ while (z != NULL) {
 Costo computazionale: $O(|adj(u)|)=O(n)$
 
 - `elimina_grafo (&g)`: $O(m)$, deve rimuovere tutti gli elementi delle liste di adiacenza (pari agli archi $m$) e deallocare il vettore di liste $0(1)$
+- 
