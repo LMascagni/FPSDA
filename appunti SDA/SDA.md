@@ -1,6 +1,9 @@
 # APPUNTI DI STRUTTRE DATI E ALGORITMI
 
+## INDICE
+
 - [APPUNTI DI STRUTTRE DATI E ALGORITMI](#appunti-di-struttre-dati-e-algoritmi)
+  - [INDICE](#indice)
   - [CAP 01 - INTRODUZIONE](#cap-01---introduzione)
     - [ALGORITMO](#algoritmo)
       - [STRUTTURE DATI](#strutture-dati)
@@ -35,7 +38,6 @@
     - [Proprietà della notazione asintotica](#proprietà-della-notazione-asintotica)
     - [ANALISI STRUTTURALE](#analisi-strutturale)
       - [Esempio di analisi strutturale](#esempio-di-analisi-strutturale)
-  - [da finire](#da-finire)
   - [CAP 04 - SEQUENZE LINEARI E ALLOCAZIONE DINAMICA DELLA MEMORIA](#cap-04---sequenze-lineari-e-allocazione-dinamica-della-memoria)
     - [SEQUENZE LINEARI](#sequenze-lineari)
     - [ALLOCAZIONE DINAMICA DELLA MEMORIA IN C](#allocazione-dinamica-della-memoria-in-c)
@@ -139,6 +141,8 @@
       - [Algoritmo di Dijkstra](#algoritmo-di-dijkstra)
         - [Complessità dell'algoritmo di Dijkstra](#complessità-dellalgoritmo-di-dijkstra)
     - [MINIMO ALBERO RICOPRENTE](#minimo-albero-ricoprente)
+      - [L'Algoritmo di Kruskal](#lalgoritmo-di-kruskal)
+        - [Algoritmo di Kruskal: analisi della complessità](#algoritmo-di-kruskal-analisi-della-complessità)
 
 ## CAP 01 - INTRODUZIONE
 
@@ -494,8 +498,6 @@ T(n)&=2c_1 \cdot n+c_2 \cdot n + 2c_3 \cdot n \cdot n + c_4 \cdot n \cdot n + c_
 &=O(n^2)+O(n)+O(1)=O(n^2)
 \end{align}
 $$
-
-## da finire
 
 ## CAP 04 - SEQUENZE LINEARI E ALLOCAZIONE DINAMICA DELLA MEMORIA
 
@@ -2328,3 +2330,65 @@ con $E' \subseteq E$ che sia:
 $$
 T= \argmin_{T= (V, E')_{\text{è un albero}}} \sum_{e \in E'}w(e)
 $$
+
+#### L'Algoritmo di Kruskal
+L'algoritmo di Kruskal si basa sull'idea di costruire incrementalmente l'albero partndo da una serie di inisiemi/alberi $S_v$ disgiunti (costituiti inizialmente da un singolo nodo). A ciascun passo considera, in modo greedy, l'arco di peso minimo fra quelli ancora non elaborati cercando diconnettere due insiemi.
+
+Sono possibili due casi:
+
+- se l'arco connette due nodi appartenenti allo stesso insieme/albero può essere scartato: infatti esso chiuderebbe un ciclo e, per costruzione, essendo più pesante dei candidati già considerati non può appartenere al minimo albero ricoprente
+- se l'arco invece connette due nodi $u$ e $v$ appartenenti a due insiemi/alberi disgiunti
+- allora, per come è stato scelto, è quello di peso minimo che **attraversa il taglio** $X(S_u, S_v)$ (iltaglio fra due insiemi disgiunti di nodi $S$ e $R$ è costituito dagli archi che hanno un estremo in $S$ e l'altro in $R$, ossia $X(S,R)=\{\{u,v\}|u \in S \land v \in R\}$)
+
+```c
+int* kruscal(grafo g) {
+   lista_archi = crea_lista_archi();
+   insieme_nodi = crea_insieme_int();
+   int u, v;
+   coda_di_priorita_archi pq = crea_coda_di_priorita_archi();
+   insieme_di_nodi s = crea_insieme_di_nodi();
+   int* archi = (int*)malloc(g.n * sizeof(int));
+   for (u = 0; u < g.n; u++)
+      archi[u] = -1;
+
+   for (u = 0; u < g.n; u++) {
+      nodo_adiacenza* e;
+      PEROGNI_VICINO(g, u, e, v) {
+         enqueue(pq, {u, v}, peso(g, u, v));
+      }
+      crea_insieme(&s, u);
+   }
+
+   while (!empty(pq)) {
+      elemento_coda_priorita_archi e = first(pq);
+      dequeue(pq);
+      u = e.dato.u;
+      v = e.dato.v;
+      if (disgiunti(s, u, v)) {
+         unisci(&s, u, v);
+         archi[u] = v;
+         archi[v] = u;
+      }
+   }
+
+   return archi;
+}
+```
+
+Le strutture dati **coda di priorità** e **insieme di nodi** andrebbero adattate per rappresentare degli archi e degli insiemi disgiunti di nodi
+
+##### Algoritmo di Kruskal: analisi della complessità
+
+Ipotiziamo che gli insiemi di nodi vengano rappresentati da una lista di liste ordinate (una per ciascun insieme).
+
+- l'inizializzazione delle strutture dati richiede tempo $O(m\log m)$ per il riempimento della coda di priorità, mentre per la struttura che mantiene gli insiemi di nodi sono necessari $O(n)$ operazioni per la creazione della lista di liste
+- il ciclo ehile viene ripetuto al più $m$ volte
+  - ciascuna operazione di `dequeue` dalla coda di priorità richiedono tempo $O(\log m)$
+  - ciascuna operazione di verifica della disgiunzione dei due insiemi richiede, nell'implementazione a lista, tempo $O(|l_1|+|l_2|)=O(n)$
+  - ciascuna operazione di unione dei due insiemi richiede tempo $O(|l_1|+|l_2|)=O(n)$, poichè le due liste rappresentanti i due insiemi sono ordinate è possibile fonderle con una funzione simile a `merge` dell'algoritmo merge sort
+
+Pertanto la complessità totale dell'algoritmo è $O(m\log m) +O(m\cdot n) = O(m\cdot n)$
+
+Usando delle strutture dati per gli insiemi di nodi (union-find) la complessita totale sarebbe $O(m\log n)$
+
+![sium](img/diomerda.png)
