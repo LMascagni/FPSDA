@@ -102,6 +102,28 @@
       - [Ricerca negli Alberi Binari di Ricerca](#ricerca-negli-alberi-binari-di-ricerca)
       - [Inserimento negli Alberi Binari di Ricerca](#inserimento-negli-alberi-binari-di-ricerca)
       - [Cancellazione negli Alberi Binari di Ricerca](#cancellazione-negli-alberi-binari-di-ricerca)
+    - [ALBERI AVL](#alberi-avl)
+      - [Alberi AVL: Rotazioni](#alberi-avl-rotazioni)
+      - [Alberi AVL: Rotazioni, caso SS](#alberi-avl-rotazioni-caso-ss)
+      - [Alberi AVL: Rotazioni, caso SD](#alberi-avl-rotazioni-caso-sd)
+      - [Alberi AVL: Cancellazione](#alberi-avl-cancellazione)
+    - [TABELLE HASH](#tabelle-hash)
+      - [Funzioni Hash](#funzioni-hash)
+      - [Implementazione con Tabelle Hash con Liste di Trabocco](#implementazione-con-tabelle-hash-con-liste-di-trabocco)
+      - [Tabelle Hash con Indirizzamento Aperto](#tabelle-hash-con-indirizzamento-aperto)
+      - [Implementazione delle Tabelle Hash co indirizzamento](#implementazione-delle-tabelle-hash-co-indirizzamento)
+      - [Analisi delle Tabelle Hash con Indirizzamento Aperto](#analisi-delle-tabelle-hash-con-indirizzamento-aperto)
+  - [CAP 10 - ALGORITMI GREEDY](#cap-10---algoritmi-greedy)
+  - [SELEZIONE DELE ATTIVITA'](#selezione-dele-attivita)
+  - [CAP 11 - GRAFI E PROBLEMI SU GRAFI](#cap-11---grafi-e-problemi-su-grafi)
+    - [Adiacenza/incidenza, pesi, gradi](#adiacenzaincidenza-pesi-gradi)
+    - [Cammini](#cammini)
+    - [Cicli,, caratterizzazione degli aleri](#cicli-caratterizzazione-degli-aleri)
+    - [Cammini minimi](#cammini-minimi)
+    - [Grafo come struttura di dati astratta: operazioni](#grafo-come-struttura-di-dati-astratta-operazioni)
+    - [Rappresentazione Concreta dei Grafi](#rappresentazione-concreta-dei-grafi)
+      - [Rappresentazione con Liste di Adiacenza](#rappresentazione-con-liste-di-adiacenza)
+        - [Rappresentazione con Liste di Adiacenza: Operazioni e Costo Computazionale](#rappresentazione-con-liste-di-adiacenza-operazioni-e-costo-computazionale)
 
 ## CAP 01 - INTRODUZIONE
 
@@ -1555,4 +1577,405 @@ N.B.: Per la struttura dell'operazione di inserimento, l'albero potrebbe risulta
 
 #### Cancellazione negli Alberi Binari di Ricerca
 
-Operazione immediata se operata su un nodo con un solo figlio
+Operazione immediata se operata su un nodo con un solo figlio (sostituisce il nodo con il figlio), più complessa nel caso di un nodo con entrambi i figli.
+
+Algoritmo con complessità $O(h)$
+
+```c
+nodo_albero* cancella(nodo_albero* r, int chiave) {
+   if (r == NULL)
+      return r;
+   if (r->chiave == chiave) {
+      if (r->sinistro == NULL)
+         r = r->destro;
+      else if (r->destro == NULL)
+         r = r->sinistro
+      else {
+         w = minimo_sottoalbero(r->destro);
+         r->dato = w->dato;
+         r->destro = cancella(r->destro, w->chiave);
+      }
+   } else if (chiave < r->chiave)
+      r->sinistro = cancella(r->sinistro, chiave);
+   else
+      r->destro = cancella(r->destro, chiave);
+   return r;
+}
+
+nodo_Albero* minimo_sottoalbero(nodo_albero* r) {
+   while (r->sinistro != NULL)
+      r = r->sinistro;
+   return r;
+}
+```
+
+---
+
+### ALBERI AVL
+
+Gli alberi AVL sono alberi **1-bilanciati**, ovvero $|$ `altezza(r->sinistro)`$-$`altezza(r->destro)`$|\leq 1$
+
+**Idea di base**:quando a seguito dell'inserimento l'albero si sbilancia di più di un livello, effettuando delle rotazioni per riequilibrare l'altezza
+
+#### Alberi AVL: Rotazioni
+
+Per le rotazioni possono essere classificati 4 casi: Sinistro-Sinistro (**SS**), Sinistro-Destro (**SD**), Destro-Sinistro (**DS**), Destro-Destro (**DD**). $u$ è il nodo critico, ovvero il nodo al livello di profondità minore per cui si rileva lo sbilanciamento
+
+   ![casi di sbilanciamento](img/rotazione_AVL.png)
+
+I casi sono simmetrici, quindi basterà analizzare solamente i casi SS e SD
+
+#### Alberi AVL: Rotazioni, caso SS
+
+Nel caso SS, l'elemento inserito è quello con la chiave minima ed è sufficiente solamente una rotazione antioraria si $u$ per riequilibrare l'altezza
+
+![caso SS](img/AVL_SS.png)
+
+#### Alberi AVL: Rotazioni, caso SD
+
+aNel caso SD, è possibile ricondurre la situazione al caso precedente (SS) attraverso una rotazione antioraria su `u->sinistro`. Una volta effettuata tale operazione è sufficiente quindi effettuare una rotazione oraria su `u` come già visto
+
+![caso SD_1](img/AVL_SD_1.png)
+![caso SD_2](img/AVL_SD_2.png)
+
+#### Alberi AVL: Cancellazione
+
+È possibile trattare il caso della cancellazione in un AVL mantenendo l'altezza bilanciata, tuttavia l'agoritmo risultante è particolarmente complesso
+
+Usiamo un'idea alternativa per la cancellazione: utilizzare la lazy deletion, ovvero marcare logicamente un nodo come cancellato (attraverso un flag booleano) invece di eliminarlo fisicamente dall'albero
+
+- il nodo "cancellato", deve rimanere comunque nell'albero come guida per la ricerca
+
+Si osservi che, un numero di nodi cancellati anche se pari a metà dei nodi dell'albero, contribuisce al più di un livello (dunque un valore costante) all'altezza dell'albero stesso: possiamo scegliere tale valore come livello di soglia
+
+Analogamente al caso degli array dinamici, quando il numero di nodi cancellati supera la metà dei nodi dell'albero, l'albero viene ricreato da zero includendo solamente i nodi non cancellati ed eliminando l'albero originale
+II costo ammortizzato di tale operazione è pari a $O(\log n)$  
+Infatti, prima di effettuare l'operazione di creazione di un nuovo albero si sono effettuate $\frac{n}{2}$ cancellazioni sulle quali spalmare il costo dell'operazione
+
+- la componente di costo relativo a questa operazione è la ricerca dell'elemento contenente la chiave da eliminare, avente costo $O(\log n)$
+
+L'operazione di copia dei nodi (non cancellati) dell'albero in un nuovo albero richiede tempo $O(n \log n)$, pertanto, ammortizzando tale costo sulle % operazioni di cancellazione otteniamo che il costo di un'operazione di cancellazione è pari a $\frac{O(n \log n)}{\frac{n}{2}}=O(\log n)$
+
+### TABELLE HASH
+
+#### Funzioni Hash
+
+Le funzioni **hash** sono delle funzioni con svariati utilizzi in informatica
+
+- $h(m)=c$, è facile da calcolare ma è molto difficile calcolarne l'inversa $h^{-1}(c)$ per ricostruire il messaggio originale
+
+Le funzioni hash posso no essere utilizzate per implementare un dizionario, in cui gli $n$ elementi del dizionario sono memorizzati in un array di $m$ elementi, ciascuno di essi alla posizione $h(k)$ (detto **tabella hash**)
+
+Ovviamente questo funziona se $m=O(n)$ e la funzione $h(k)$ è **perfetta**, ossia non genera alcuna collisione ($k \neq k' e h(k) = h(k')$)
+
+- In tal caso, la complessità delle operazioni è $O(1)$, posto che indichiamo con un booleano la presenza o meno di un dato nella tabella
+
+#### Implementazione con Tabelle Hash con Liste di Trabocco
+
+Nel caso generale ciò non si verifica, pertanto si utilizzno delle tabelle con **liste di trabbocco**
+
+```c
+elemento_dizionario* ricerca(tabella_hash* tabella, int chiave) {
+   int h = hash(chiave);
+   elemento dizionario *p;
+   p= ricerca_inlista(tabella[h], chiave);
+   if (p != NULL)
+      return p->dato;
+   else
+      return NULL;
+}
+
+void inserisci(tabella_hash* tabella, int chiave, float dato) {
+   if (ricerca(tabella, chiave) == NULL) {
+      h = hash(chiave);
+      aggiungi_in_coda(tabella[h], chiave, dato);
+   }
+}
+
+void cancella(tabella_hash* tabella, int chiave) {
+   if (ricerca(tabella, chiave) != NULL) {
+      h = hash(chiave);
+      cancella_elemento_lista(tabella[h], chiave);
+   }
+}
+```
+
+La complessità delle operazioni è proporzionale alla lunghezza $l$ della lista, $O(l)$
+
+- ovviamente nel caso peggiore la funzione hash calcola lo stesso indice per tutte (o quasi) le chiavi e dunque la lunghezza è $l = O(n)$ così come la complessità
+
+In un caso non così patologico, tuttavia possiamo assumere che la funzione di hash distribuisca in modo uniforme le chiavi fra i vari indici della tabella, in tal caso la lunghezza media della lista sarà $l=O(\frac{n}{m})$
+
+Indicando con $\alpha =\frac{n}{m}$ il cosiddetto fattore di carico della tabella hash, possiamo esprimere la complessità delle operazioni nella forma 0(1 + a), ovvero costante a meno del fattore di carico
+
+#### Tabelle Hash con Indirizzamento Aperto
+
+Un'alternativa all'uso delle liste di trabocco consiste nel utilizzare una tabella con $m$ elementi e più funzioni di hash alternative: se la cella della tabella risulta già occupata, si proverà con un'altra funzione a calcolare una posizione alternativa.
+
+Nel caso dell'indirizzamento aperto è data una famiglia di $m$ funzioni hash $h_i (k)$ che
+vengono provate (nell'ordine di $i$ crescente). Ciascuna di tali funzioni devono generare una
+permutazione degli indici.
+
+**Esempi di famiglie di funzioni di hash:**
+
+- $h_i(k) = (h' (k) + i) \%m$ scansione lineare
+- $h_i(k) = (h' (k) + ai^2 + bi + c) \%m$ scansione quadratica
+- $h_i(k) = (h' (k) + i \cdot h"(k)) \%m$ scansione basata su hash doppio
+
+N.B.: A differenza dell'implementazione con liste di trabocco se la tabella è (quasi) piena non
+è possibile aggiungere un nuovo elemento.
+
+#### Implementazione delle Tabelle Hash co indirizzamento
+
+```c
+elemento_dizionario* ricerca(tabella hash* tabella, int chiave) {
+   for(i = 0; i < m; i++) {
+      h = hash[i](chiave);
+      if (tabella[h]== NULL)
+         return NULL;
+      if (tabella[h->chiave == chiave])
+         return tabella[h];
+   }
+   return NULL;
+}
+
+void inserisci(tabella_hash* tabella, int chiave, float dato) {
+   elemento_dizionario* e;
+   if (ricerca(tabella, chiave) == NULL) {
+      i = 0;
+      e = crea_elemento(chiave, dato);
+      do {
+         h = hash[i](chiave);
+         if(tabella[h] == NULL)
+            tabella[h] = e;
+         i++;
+      } while (tabella[h] != e);
+   }
+}
+```
+
+#### Analisi delle Tabelle Hash con Indirizzamento Aperto
+
+Nell'analisi della complessità ci concentriamo nella misurazione delle operazioni di accesso alla tabella, assumendo che il calcolo della funzione hash richieda tempo costante.
+
+In generale, nel caso pessimo, tutte le operazioni richiedono tempo $O(m)$, necessario a provare tutte le $m$ funzioni di hash per trovare l'elemento cercato (eventualmente da eliminare) o una determinare una cella vuota per l'inserimento.
+
+Cerchiamo di fare un'analisi più accurata nel caso medio  
+Per ciò che riguarda il numero di accessi dell'operazione di ricerca e di cancellazione in media saranno necessari $\frac{n}{m}=\alpha$ operazioni di accesso, nell'ipotesi che per ogni chiave $k$, $h_i (k)$ sia una delle $m!$ permutazioni degli indici generata in modo casuale e uniforme
+
+Per l'operazione di inserimento l'analisi è leggermente più complessa.
+
+Esprimiamo la funzione di complessità come $T (n, m)$, numero di accessi alla tabella
+effettuati per trovare una cella vuota in una tabella di $m > n$ posizioni
+
+$$
+T(n,m)=
+\begin{cases}
+O(1) & \text{se } n = 1 \\
+1+T(n-1,m-1) & \text{se } n > 0 \text{ per un numero di volte pari a } \frac{n}{m}\\
+1  & \text{se } n > 0 \text{ per un numero di volte pari a } \frac{m-n}{m}
+\end{cases}
+$$
+
+Per $T (0, m)$, la tabella è vuota e l'operazione accede direttamente ad una cella disponibile.  
+In caso contrario, per $m — n$ volte su $m$ abbiamo un solo accesso quando la cella a cui si accede è disponibile, mentre per $n$ volte su $m$ la cella non sarà disponibile e dunque sarà necessario effettuare ulteriori $T (n — 1, m — 1)$ accessi (abbiamo escluso un elemento tra quelli possibili e proviamo una funzione hash in meno)
+
+Possiamo esprimere la relazione con il valore atteso di $T(n,m)$ nel caso $n>0$:
+
+$$
+\mathbb{E}[T(n,m)] = \frac{m-n}{n} \cdot 1 + \frac{n}{m} \cdot (1+T (n — 1, m — 1)) = 1+\frac{n}{m} T (n — 1, m — 1)
+$$
+
+E' facilmente dimostrabile per induzione su $m>n>0$ che $T(n,m) \leq \frac{m}{m-n}$ da cui deriviamo:
+
+$$
+T(n,m) \leq \frac{m}{m-n} = \frac{1}{1-\frac{n}{m}}=\frac{1}{1-\alpha}=O(1)
+$$
+
+Ovvero, il numero di accessi per l'inseriemtno risulta essere, in media, costante.
+
+## CAP 10 - ALGORITMI GREEDY
+
+Gli algoritmi "**greedy**" o "**ingordi**" sono degli algoritmi iterativi che a ciascun passo, fra un insieme di scelte, scelgono sempre la **migliore** rispetto alla situazione corrente (**migliore localmente**)
+
+- non è detto che questa porti a una soluzione **globalmente** migliore
+
+Questi algoritmi, in generale, costruiscono una soluzione $s$ aggiungendone un frammento $a_i$ alla volta.
+
+Il problema risolto è, di solito, di **ottimizzazione**, del tipo $\min_{s \in S} f(s)$
+
+- l'algoritmo è guidato da una funzione h : A —Y che consente di misurare l'appetibilità di ciascun frammento della soluzione e, di conseguenza, di ordinarli per valori crescenti (l'obiettivo dell'ottimizzazione è la minimizzazione)
+- la funzione h è detta euristica
+
+In alcuni casi, il criterio di ottimalità può cambiare durante la costruzione della soluzione, ad
+esempio, perché dipende da degli elementi già inseriti nell'insieme. In altri termini la
+funzione euristica dipende anche dalla soluzione finora costruita: $f : A \times S \rightarrow \mathbb{R}^{\geq 0}$
+
+E possibile adattare lo schema algoritmico per tenerne conto, ad esempio memorizzando i frammenti della soluzione in una coda di priorità.
+
+II valore di priorità associato a ciascun frammento ancora in coda, se potenzialmente variato a seguito della nuova soluzione, dovrà essere modificato.
+
+## SELEZIONE DELE ATTIVITA'
+
+## CAP 11 - GRAFI E PROBLEMI SU GRAFI
+
+Rappresentano un generalizzazione degli alberi, in cui la relazione fra due nodi non è più solamente egrarchica ma può essere di qualunque altro tipo
+
+Un grafo $G=(V,E)$ è costituito da:
+
+- un insieme di $V$ vertici o nodi $|V|=n$
+- un insieme di $E \subseteq BV \times V$ archi, insieme di coppie $|E| = m$
+  - Le possibili coppie di nodi in un grafo con $n$ nodi sono $\binom{n}{2}=\frac{n(n-1)}{2}=O(n^2)$
+  - il grafo è detto **sparso** se $m=O(n)$, **denso** se $m=Θ(n^2)$
+
+Il numero di nodi $n$ è detto **ordine** del grafo, mentre la **dimensione** del grafo $n+m$
+
+Un grafo di ordine $n$ è detto **completo** qualora qualunque sua coppia di nodi sia connessa da un arco (si indica con $\mathbb{K_n}$)
+
+Un arco del grafo $e$ fra i nodi $u$ e $v$ viene rappresentato come coppia $e=(u, v)$
+
+In generale, $(u, v) \neq (v, u)$, ovvero questo tipo di rappresentazione implica una direzionalità o asimmetria della relazione, l'arco è direttoda $u$ a $v$  
+Un grafo con **archi dirett** viene deto **grafo diretto**
+
+Nel caso la relazione descritta dagli archi del grafo sia simmetrica, invece, abbiamo che $(u, v) \in E \Leftrightarrow  (v, u) \in E$. In tal caso siamo in presenza di un grafo indiretto
+
+In tal caso, ho un piccolo abuso di notazione consideriamo come unico l'arco che differisce
+per l'ordine dei nodi $(u, v) \equiv (v, u)$
+
+### Adiacenza/incidenza, pesi, gradi
+
+I nodi $u$ e $v$ tra i quali esiste un arco $e = (u, v)$ sono detti adiacenti, l'arco $e$ si dice incidente in $u$ e in $v$
+
+- il concetto di incidenza non guarda alla simmetria/assimetria della relazione
+
+Un grafo è detto pesato se è definita una funzione $w : E \rightarrow \mathbb{R}$ che assegna un valore numerico ad ogni arco (detto peso).
+
+- a esempio la distanza fra gli aeroporti può essere il peso di ciascun arco
+
+Il grado di un nodo è il numero di archi incidenti in esso (non è legato al peso).
+
+- Nel caso di grafi diretti si può distinguere tra grado entrante e grado uscente da $u$ (rispettivamente, numero di archi $(x, u)$ e $(u, x)$)
+
+### Cammini
+
+Un percorso fra nodi che si sposta visitando gli archi viene chiamato cammino o percorso.  
+Formalmente un cammino è una sequenza di $k + 1$ nodi $x_0,...,x_k$ tale che $(x_i, x_{i+l}) \in E$ per ogni $0 \leq i \leq k.
+
+- kè detta lunghezza del cammino (numero di archi attraversati)
+- un cammino fra due nodi u e vè un cammino in cui u e Xk v
+- nel caso di grafi diretti, in generale, non necessariamente l'esistenza di un cammino da u a v garantisce l'esistenza di un cammino da v a u mentre nei grafi indiretti è sufficiente invertire la direzione in cui sono percorsi gli archi
+
+Un cammino è detto semplice se non attraversa alcun nodo più di una volta
+
+Due nodi per i quali esiste un cammino sono detti connessi
+
+Un grafo in cui esiste un cammino per ogni coppia di nodi è detto connesso
+
+### Cicli,, caratterizzazione degli aleri
+
+Un cammino in cui $x_0 = x_k$ è detto ciclo, ovvero è un cammino che, al termine, ritorna al nodo di partenza
+
+Un grafo che non contiene cicli viene detto aciclico altrimenti è detto ciclico
+
+Attraverso questi concetti è possibile caratterizzare gli alberi a partire dai grafi:
+
+- è possibile stabilire l'equivalenza fra un albero e un grafo indiretto aciclico connesso con $n$ nodi e $n — 1$ archi
+
+### Cammini minimi
+
+Un cammino minimo fra due nodi $u$ e $z$ è caratterizzato dall'avere lunghezza minima tra tutti i cammini possibili fra $u$ e $z$
+
+- la distanza fra due nodi $u$ e $z$ è la lunghezza di un cammino minimo. Se tale cammino non esiste la distanza ha valore $+\infty$
+
+Nel caso di grafi pesati, si definisce il peso di un cammino come la somma dei pesi degli
+archi attraversati dal cammino stesso 0 $\sum_{i=0}^{k-1} w(x_i, x_{x+1})$
+
+- un cammino minimo pesato è il cammino di peso minimo fra due nodi
+- la distanza pesata è il peso di un cammino minimo fra due nodi (analogamente se non esiste un cammino fra i nodi assumiamo abbia valore $+\infty$)
+
+### Grafo come struttura di dati astratta: operazioni
+
+Creazione e Manipolazione:
+
+- `crea_grafo(n, diretto?)` ,crea un nuovo grafo con $n$ nodi privo di archi e diretto/indiretto a seconda del valore booleano
+- `aggiungi_arco(g, u, v, w)` , aggiunge un arco (di peso $w$) tra $u$ e $v$
+- `rimuovi_arco(g, u, v)` , rimuove un arco tra $u$ e $v$
+- `elimina_grafo(g)` elimina il grafo
+
+Verifica struttura:
+
+- `esiste_arco(g, u, v)` , restituisce un valore di verità che corrisponde all'esistenza di un arco fra $u$ e $v$ nel grafo
+
+Enumerazione vicinato (dipende dalla rappresentazione):
+
+- consiste in un ciclo in cui vengono enumerati, uno alla volta, tutti i nodi adiacenti a un dato nodo $u$ (possibilmente diretti, ovvero in uscita)
+
+### Rappresentazione Concreta dei Grafi
+
+**Assunzione**: ciascun nodo è rappresentato da un indice numerico compreso fra $0$ e $n-1$ ($n$ numero totale di nodi)
+
+Due rappresentazioni comuni:
+
+- liste di adiacenza
+- matrici di adiacenza
+
+#### Rappresentazione con Liste di Adiacenza
+
+Vettore di liste in cui l'indice dell'elemento corrisponde all'indice numerico del nodo
+
+```c
+typedef struct _ nodo _ adiacenza {
+   int vertice;
+   float peso;
+   struct nodo adiacenza* succ;
+} nodo_adiacenza;
+
+typedef struct {
+   int n;
+   nodo adiacenza** adiacenti;
+   bool diretto;
+} grafo;
+```
+
+Questo tipo di rappresentazione è particolarmente adatta per grafi sparsi, infatti in tal caso la dimensione delle liste è limitata superiormente da una costante, tipicamente non troppo grande
+
+La complessità spaziale di rappresentazione di un grafo mediante le liste di adiacenza è $O(n + m)$
+
+- quindi nel caso di un grafo denso (o completo) è $O(n^2)$
+
+La lunghezza massima di una lista di adiacenza è $n — 1 = O(n)$
+
+##### Rappresentazione con Liste di Adiacenza: Operazioni e Costo Computazionale
+
+- `g = crea_grafo(n)` : creazione del vettore di liste e impostazionea `NULL` di tutte le liste: $O(n)$
+- `aggiungi_arco(&g, u, v, w)` : aggiunta di un elemento in coda (o in testa) alla lista: $0(1)$
+- `rimuovi_arco(&g, u, v)` : rimozione di un elemento dalla lista $O(n)$
+- Ricerca dell'esistenza di un arco fra due nodi:
+  
+```c
+esiste_arco(g, u, v):
+   z = g. adiacenti [u];
+   while (z != NULL) {
+      if (z. vertice)
+         return t rue;
+      z = z.succ;
+   }
+   return false;
+```
+
+Complessità temporale: $O(n)$
+Si può fare di meglio? Si, ad esempio mantenendo la sequenza di nodi adiacenti in un array dinamico ordinato, in tal caso la ricerca può essere svolta attraverso la ricerca binaria in tempo $O(log n)$
+
+- Enumerazione vicinato di u :
+
+```c
+z = g.adiacenti[u];
+while (z != NULL) {
+   /* Elabora z */
+   z = z.succ;
+}
+```
+
+Costo computazionale: $O(|adj(u)|)=O(n)$
+
+- `elimina_grafo (&g)`: $O(m)$, deve rimuovere tutti gli elementi delle liste di adiacenza (pari agli archi $m$) e deallocare il vettore di liste $0(1)$
