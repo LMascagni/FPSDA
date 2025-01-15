@@ -23,7 +23,6 @@ int leggi_file(FILE *fp, struct pasto l_pasti[MAX_DATE]);
 //* COR 3 - aggiunto un nuovo argomento per il carattere separatore
 struct sdata estrai_data(char data[MAX_STR_LEN], char separatore);
 void conta_voti(FILE *fp, struct pasto l_pasti[MAX_DATE], int n_pasti);
-int leggi_voto(FILE *fp, char data[MAX_STR_LEN], char p_c[MAX_STR_LEN]);
 void incrementa_voto(struct pasto l_pasti[MAX_DATE], struct pasto pasto, int n_pasti);
 int cerca_pasto(struct pasto l_pasti[MAX_DATE], struct pasto pasto, int n_pasti);
 int datecmp(struct sdata d1, struct sdata d2);
@@ -136,20 +135,6 @@ void conta_voti(FILE *fp, struct pasto l_pasti[MAX_DATE], int n_pasti)
    }
 
    return;
-}
-
-int leggi_voto(FILE *fp, char data[MAX_STR_LEN], char p_c[MAX_STR_LEN])
-{
-   while(fgetc(fp) != ':')
-   {
-      if(feof(fp))
-      {
-         return EOF;
-      }
-   }
-
-   return fscanf(fp, "%s %s", data, p_c);
-
 }
 
 void incrementa_voto(struct pasto l_pasti[MAX_DATE], struct pasto pasto, int n_pasti)
