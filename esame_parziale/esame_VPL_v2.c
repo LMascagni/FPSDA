@@ -21,7 +21,6 @@ struct pasto
 };
 
 int leggi_file(FILE *fp, struct pasto l_pasti[MAX_DATE]);
-//* COR 3 - aggiunto un nuovo argomento per il carattere separatore
 struct sdata estrai_data(char data[MAX_STR_LEN]);
 void conta_voti(FILE *fp, struct pasto l_pasti[MAX_DATE], int n_pasti);
 void incrementa_voto(struct pasto l_pasti[MAX_DATE], struct pasto pasto, int n_pasti);
@@ -92,6 +91,7 @@ struct sdata estrai_data(char data[MAX_STR_LEN])
    int i;
    i = 0;
 
+   //* COR 3 - al posto di controllare quando si raggiunge un carattere separatore, controlliamo quando si raggiunge un carattere numerico
    while(isdigit(data[i]))
    {
       sdata.g = (sdata.g * 10) + (data[i] - '0');
